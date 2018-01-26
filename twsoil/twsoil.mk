@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Todd
-Date                   :=21/01/2018
+Date                   :=25/01/2018
 CodeLitePath           :="C:/Program Files/CodeLite"
 LinkerName             :=C:/MinGW/bin/g++.exe
 SharedObjectLinkerName :=C:/MinGW/bin/g++.exe -shared -fPIC
@@ -67,7 +67,7 @@ WorkspaceCodeLib:=C:\Users\Todd\Desktop\Development\Code-Library
 BoostIncludes:=C:\Boost\include\boost-1_66
 BoostLibraries:=C:\Boost\lib
 blibsuffix:=mgw72-mt-x32-1_66
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/up_up_Code-Library_fast-log2.cpp$(ObjectSuffix) $(IntermediateDirectory)/up_up_Code-Library_hi-res-time2.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/up_up_Code-Library_IB-codes_vwap-signal-agent.cpp$(ObjectSuffix) $(IntermediateDirectory)/up_up_Code-Library_IB-codes_orderflow-utils.cpp$(ObjectSuffix) $(IntermediateDirectory)/up_up_Code-Library_IB-codes_depth-tracker.cpp$(ObjectSuffix) $(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-tracker-database4.cpp$(ObjectSuffix) $(IntermediateDirectory)/up_up_Code-Library_fast-log2.cpp$(ObjectSuffix) $(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-client2.cpp$(ObjectSuffix) $(IntermediateDirectory)/up_up_Code-Library_IB-codes_timesales-tracker.cpp$(ObjectSuffix) $(IntermediateDirectory)/up_up_Code-Library_hi-res-time2.cpp$(ObjectSuffix) $(IntermediateDirectory)/main.cpp$(ObjectSuffix) 
 
 
 
@@ -98,13 +98,37 @@ PreBuild:
 ##
 ## Objects
 ##
-$(IntermediateDirectory)/main.cpp$(ObjectSuffix): main.cpp $(IntermediateDirectory)/main.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Todd/Desktop/Development/CodeLite-Workspace/twsoil/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/main.cpp$(DependSuffix): main.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/main.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/main.cpp$(DependSuffix) -MM main.cpp
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_vwap-signal-agent.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/vwap-signal-agent.cpp $(IntermediateDirectory)/up_up_Code-Library_IB-codes_vwap-signal-agent.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Todd/Desktop/Development/Code-Library/IB-codes/vwap-signal-agent.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/up_up_Code-Library_IB-codes_vwap-signal-agent.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_vwap-signal-agent.cpp$(DependSuffix): ../../Code-Library/IB-codes/vwap-signal-agent.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/up_up_Code-Library_IB-codes_vwap-signal-agent.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/up_up_Code-Library_IB-codes_vwap-signal-agent.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/vwap-signal-agent.cpp
 
-$(IntermediateDirectory)/main.cpp$(PreprocessSuffix): main.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/main.cpp$(PreprocessSuffix) main.cpp
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_vwap-signal-agent.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/vwap-signal-agent.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/up_up_Code-Library_IB-codes_vwap-signal-agent.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/vwap-signal-agent.cpp
+
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_orderflow-utils.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp $(IntermediateDirectory)/up_up_Code-Library_IB-codes_orderflow-utils.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Todd/Desktop/Development/Code-Library/IB-codes/orderflow-utils.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/up_up_Code-Library_IB-codes_orderflow-utils.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_orderflow-utils.cpp$(DependSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/up_up_Code-Library_IB-codes_orderflow-utils.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/up_up_Code-Library_IB-codes_orderflow-utils.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/orderflow-utils.cpp
+
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_orderflow-utils.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/up_up_Code-Library_IB-codes_orderflow-utils.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/orderflow-utils.cpp
+
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_depth-tracker.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/depth-tracker.cpp $(IntermediateDirectory)/up_up_Code-Library_IB-codes_depth-tracker.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Todd/Desktop/Development/Code-Library/IB-codes/depth-tracker.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/up_up_Code-Library_IB-codes_depth-tracker.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_depth-tracker.cpp$(DependSuffix): ../../Code-Library/IB-codes/depth-tracker.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/up_up_Code-Library_IB-codes_depth-tracker.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/up_up_Code-Library_IB-codes_depth-tracker.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/depth-tracker.cpp
+
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_depth-tracker.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/depth-tracker.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/up_up_Code-Library_IB-codes_depth-tracker.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/depth-tracker.cpp
+
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-tracker-database4.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/tws-tracker-database4.cpp $(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-tracker-database4.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Todd/Desktop/Development/Code-Library/IB-codes/tws-tracker-database4.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-tracker-database4.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-tracker-database4.cpp$(DependSuffix): ../../Code-Library/IB-codes/tws-tracker-database4.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-tracker-database4.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-tracker-database4.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/tws-tracker-database4.cpp
+
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-tracker-database4.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/tws-tracker-database4.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-tracker-database4.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/tws-tracker-database4.cpp
 
 $(IntermediateDirectory)/up_up_Code-Library_fast-log2.cpp$(ObjectSuffix): ../../Code-Library/fast-log2.cpp $(IntermediateDirectory)/up_up_Code-Library_fast-log2.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Todd/Desktop/Development/Code-Library/fast-log2.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/up_up_Code-Library_fast-log2.cpp$(ObjectSuffix) $(IncludePath)
@@ -114,6 +138,22 @@ $(IntermediateDirectory)/up_up_Code-Library_fast-log2.cpp$(DependSuffix): ../../
 $(IntermediateDirectory)/up_up_Code-Library_fast-log2.cpp$(PreprocessSuffix): ../../Code-Library/fast-log2.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/up_up_Code-Library_fast-log2.cpp$(PreprocessSuffix) ../../Code-Library/fast-log2.cpp
 
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-client2.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/tws-client2.cpp $(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-client2.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Todd/Desktop/Development/Code-Library/IB-codes/tws-client2.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-client2.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-client2.cpp$(DependSuffix): ../../Code-Library/IB-codes/tws-client2.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-client2.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-client2.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/tws-client2.cpp
+
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-client2.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/tws-client2.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/up_up_Code-Library_IB-codes_tws-client2.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/tws-client2.cpp
+
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_timesales-tracker.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/timesales-tracker.cpp $(IntermediateDirectory)/up_up_Code-Library_IB-codes_timesales-tracker.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Todd/Desktop/Development/Code-Library/IB-codes/timesales-tracker.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/up_up_Code-Library_IB-codes_timesales-tracker.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_timesales-tracker.cpp$(DependSuffix): ../../Code-Library/IB-codes/timesales-tracker.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/up_up_Code-Library_IB-codes_timesales-tracker.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/up_up_Code-Library_IB-codes_timesales-tracker.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/timesales-tracker.cpp
+
+$(IntermediateDirectory)/up_up_Code-Library_IB-codes_timesales-tracker.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/timesales-tracker.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/up_up_Code-Library_IB-codes_timesales-tracker.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/timesales-tracker.cpp
+
 $(IntermediateDirectory)/up_up_Code-Library_hi-res-time2.cpp$(ObjectSuffix): ../../Code-Library/hi-res-time2.cpp $(IntermediateDirectory)/up_up_Code-Library_hi-res-time2.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Todd/Desktop/Development/Code-Library/hi-res-time2.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/up_up_Code-Library_hi-res-time2.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/up_up_Code-Library_hi-res-time2.cpp$(DependSuffix): ../../Code-Library/hi-res-time2.cpp
@@ -121,6 +161,14 @@ $(IntermediateDirectory)/up_up_Code-Library_hi-res-time2.cpp$(DependSuffix): ../
 
 $(IntermediateDirectory)/up_up_Code-Library_hi-res-time2.cpp$(PreprocessSuffix): ../../Code-Library/hi-res-time2.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/up_up_Code-Library_hi-res-time2.cpp$(PreprocessSuffix) ../../Code-Library/hi-res-time2.cpp
+
+$(IntermediateDirectory)/main.cpp$(ObjectSuffix): main.cpp $(IntermediateDirectory)/main.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Todd/Desktop/Development/CodeLite-Workspace/twsoil/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/main.cpp$(DependSuffix): main.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/main.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/main.cpp$(DependSuffix) -MM main.cpp
+
+$(IntermediateDirectory)/main.cpp$(PreprocessSuffix): main.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/main.cpp$(PreprocessSuffix) main.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

@@ -6,8 +6,10 @@
 
 #include "credentials3.hpp"
 #include "thread-pooler2.hpp"
-#include "hi-res-timer2.hpp"
+#include "hi-res-time2.hpp"
 #include "fast-log2.hpp"
+
+#include "basic-websocket-server2.hpp"
 
 #include "tws-tracker-database4.hpp"
 #include "tws-client2.hpp"
@@ -87,7 +89,7 @@ int main(int argc, char *argv[])
 //			//TWS.req_realtime_bars(cntr, 5, show_items, use_rth);
 //			//TWS.req_realtime_bars();
 //			TWS.req_mrk_depth();
-			break:
+			break;
 		case TWSOptions::pseudo:
 			CLOG->info("TWSOptions::pseudo");
 //			TWS.initialize();

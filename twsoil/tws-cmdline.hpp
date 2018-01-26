@@ -19,8 +19,9 @@ namespace TWSOptions
 		help		= 1,
 		archive		= 2,
 		history		= 3,
-		live		= 4,
-		pseudo		= 5
+		details     = 4,
+		live		= 5,
+		pseudo		= 6
 	};
 	
 	// -----------------------------------------------------------------------
@@ -29,6 +30,7 @@ namespace TWSOptions
 		if(s == "help")	return help;
 		if(s == "archive") return archive;
 		if(s == "history") return history;
+		if(s == "details") return details;
 		if(s == "live") return live;
 		if(s == "pseudo") return pseudo;
 		return error;
@@ -62,6 +64,7 @@ inline int handle_cmd_input(int argc, char* argv[], CommandArguments& args)
 			("help", "usage instructions")
 			("config", po::value<std::string>(), "config file to use, default is tws.ini")
 			("histories", po::value<std::string>(), "CSV list of dates for historical data; YYYYMMDD fmt, given in 30sec bars close to close")
+			("details", po::value<std::string>(), "get contract details")
 			("mode", po::value<std::string>(), "run mode, one of archive|history|live|pseudo")
 			("expiry", po::value<std::string>(), "auto expiration time in HH:MM:SS 24-hr format, default is 17:01:00")
 			("with-ws", "run the affiliated websocket")
@@ -82,7 +85,7 @@ inline int handle_cmd_input(int argc, char* argv[], CommandArguments& args)
 		{
 		    if(p.first == "help")
 		    {
-		    	TP.getOS() << desc << std::endl;
+		    	std::cout << desc << std::endl;
 		    	return 2;
 		    }
 
@@ -97,13 +100,13 @@ inline int handle_cmd_input(int argc, char* argv[], CommandArguments& args)
 					strtk::split_options::compress_delimiters);
 		    }
 
-		    if(it->first == "mode")
+		    if(p.first == "mode")
 		    	args.mode = TWSOptions::from_string(p.second.as<std::string>());
 
-		    if(it->first == "expiry")
+		    if(p.first == "expiry")
 		       	args.expiry = strtime_to_double(p.second.as<std::string>());
 	
-		    if(it->first == "with-ws")
+		    if(p.first == "with-ws")
 		    	args.with_websocket = true;
 	
 	    }
