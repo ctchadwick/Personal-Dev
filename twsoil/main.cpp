@@ -1,4 +1,6 @@
 
+#include <boost/make_shared.hpp>
+
 #include <spdlog/spdlog.h>
 
 #include "PHDelegate.hpp"
@@ -37,6 +39,7 @@ int main(int argc, char *argv[])
 	std::shared_ptr<spdlog::logger> CLOG = spdlog::stdout_color_mt(CREDS["consolelog.id"]);
 	CLOG->set_pattern(CREDS["consolelog.pattern"]);
 	CLOG->set_level(spdlog::level::from_str(CREDS["consolelog.level"]));
+	std::cout << "here" << std::endl;
 
 	try
 	{
@@ -47,10 +50,10 @@ int main(int argc, char *argv[])
 		//std::shared_ptr<TWSTrackingDatabase> TDB = std::make_shared<TWSTrackingDatabase>(CREDS, ATP);
 		//TDB->load_contracts_file();
 		
-		std::shared_ptr<BasicWebsocketServer> WSSERV;
+		boost::shared_ptr<BasicWebsocketServer> WSSERV;
 		if(ARGS.with_websocket)
 		{
-			WSSERV = std::make_shared<BasicWebsocketServer>(CREDS, ATP);
+			WSSERV = boost::make_shared<BasicWebsocketServer>(CREDS, ATP);
 			//TDB->sig_notify_webserver.Connect(WSSERV.get(), &BasicWebsocketServer::send_msg);
 		}
 		

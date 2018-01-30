@@ -8,6 +8,7 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="../../Code-Library/basic-websocket-server2.cpp"/>
     <File Name="../../Code-Library/basic-websocket-server2.hpp"/>
     <File Name="../../Code-Library/IB-codes/vwap-signal-agent.hpp"/>
     <File Name="../../Code-Library/IB-codes/vwap-signal-agent.cpp"/>
@@ -74,9 +75,10 @@
         <Library Value="boost_filesystem-$(blibsuffix)"/>
         <Library Value="boost_thread-$(blibsuffix)"/>
         <Library Value="boost_chrono-$(blibsuffix)"/>
-        <Library Value="boost_context-$(blibsuffix)"/>
         <Library Value="boost_coroutine-$(blibsuffix)"/>
+        <Library Value="boost_context-$(blibsuffix)"/>
         <Library Value="boost_regex-$(blibsuffix)"/>
+        <Library Value="boost_program_options-$(blibsuffix)"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(BinRepo)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
