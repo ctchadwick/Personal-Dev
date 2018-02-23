@@ -39,16 +39,15 @@ int main(int argc, char *argv[])
 	std::shared_ptr<spdlog::logger> CLOG = spdlog::stdout_color_mt(CREDS["consolelog.id"]);
 	CLOG->set_pattern(CREDS["consolelog.pattern"]);
 	CLOG->set_level(spdlog::level::from_str(CREDS["consolelog.level"]));
-	std::cout << "here" << std::endl;
-
+	
 	try
 	{
 		ASIOThdPool ATP(2);
 		ATP.set_logging(CREDS);
 		ATP.run();
 
-		//std::shared_ptr<TWSTrackingDatabase> TDB = std::make_shared<TWSTrackingDatabase>(CREDS, ATP);
-		//TDB->load_contracts_file();
+		std::shared_ptr<TWSTrackingDatabase> TDB = std::make_shared<TWSTrackingDatabase>(CREDS, ATP);
+		TDB->load_contracts_file();
 		
 		boost::shared_ptr<BasicWebsocketServer> WSSERV;
 		if(ARGS.with_websocket)
@@ -57,14 +56,15 @@ int main(int argc, char *argv[])
 			//TDB->sig_notify_webserver.Connect(WSSERV.get(), &BasicWebsocketServer::send_msg);
 		}
 		
-		//std::shared_ptr<TWSClient> std::make_shared<TWSClient>(CREDS, TDB, ATP);
-		
+		std::shared_ptr<TWSClient> TWS = std::make_shared<TWSClient>(CREDS, *TDB, ATP);
+		TWS->initialize();
+		TWS->run();
+		TWS->req_current_time();
+					
 		switch(ARGS.mode)
 		{
 		case TWSOptions::archive:
 			CLOG->info("TWSOptions::archive");
-//			TWS.initialize();
-//			TWS.run();
 //			TWS.req_mrk_data();
 //			//TWS.req_realtime_bars(cntr, 5, show_items, use_rth);
 //			//TWS.req_realtime_bars();
@@ -72,22 +72,16 @@ int main(int argc, char *argv[])
 			break;
 		case TWSOptions::history:
 			CLOG->info("TWSOptions::history");
-//			TWS->initialize(true);
-//			TWS->run();
-//			TWS->req_current_time();
-//			TWS->req_historical_data();
+			TWS->set_historical_mode(true);
+			TWS->req_historical_data();
 			break;
 		case TWSOptions::details:
 			CLOG->info("TWSOptions::details");
-//			TWS.initialize(true);
-//			TWS.run();
 //			TWS.req_current_time();
 //			TWS.req_contract_data();
 			break;
 		case TWSOptions::live:
 			CLOG->info("TWSOptions::live");
-//			TWS.initialize();
-//			TWS.run();
 //			TWS.req_mrk_data();
 //			//TWS.req_realtime_bars(cntr, 5, show_items, use_rth);
 //			//TWS.req_realtime_bars();
@@ -95,8 +89,6 @@ int main(int argc, char *argv[])
 			break;
 		case TWSOptions::pseudo:
 			CLOG->info("TWSOptions::pseudo");
-//			TWS.initialize();
-//			TWS.run();
 //			TWS.req_mrk_data();
 //			//TWS.req_realtime_bars(cntr, 5, show_items, use_rth);
 //			//TWS.req_realtime_bars();
@@ -105,7 +97,8 @@ int main(int argc, char *argv[])
 		default:
 			break;
 		}
-
+	
+		CLOG->info("Awaiting in main...");
 		ATP.join();
 	}
 	catch(...)
