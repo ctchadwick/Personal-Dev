@@ -3747,16 +3747,21 @@ int EClient::sendConnectRequest()
 
 	// send client version
 	std::stringstream msg;
-	if( m_useV100Plus) {
+	if( m_useV100Plus) 
+	{
 		msg.write( API_SIGN, sizeof(API_SIGN));
 		prepareBufferImpl( msg);
-		if( MIN_CLIENT_VER < MAX_CLIENT_VER) {
+		if( MIN_CLIENT_VER < MAX_CLIENT_VER) 
+		{
 			msg << 'v' << MIN_CLIENT_VER << ".." << MAX_CLIENT_VER;
 		}
-		else {
+		else 
+		{
 			msg << 'v' << MIN_CLIENT_VER;
 		}
-		if( !m_connectOptions.empty()) {
+		
+		if( !m_connectOptions.empty()) 
+		{
 			msg << ' ' << m_connectOptions;
 		}
 

@@ -57,34 +57,35 @@ int main(int argc, char *argv[])
 		}
 		
 		std::shared_ptr<TWSClient> TWS = std::make_shared<TWSClient>(CREDS, *TDB, ATP);
-		TWS->initialize();
 		TWS->run();
-		TWS->req_current_time();
-					
+									
 		switch(ARGS.mode)
 		{
 		case TWSOptions::archive:
 			CLOG->info("TWSOptions::archive");
-//			TWS.req_mrk_data();
-//			//TWS.req_realtime_bars(cntr, 5, show_items, use_rth);
-//			//TWS.req_realtime_bars();
-//			TWS.req_mrk_depth();
+			TWS->req_current_time();
+			TWS->fivesec_archive();
+			break;
+		case TWSOptions::histogram:
+			CLOG->info("TWSOptions::histogram");
+			TWS->close_after_data(true);
+			TWS->req_histogram_data();
 			break;
 		case TWSOptions::history:
 			CLOG->info("TWSOptions::history");
-			TWS->set_historical_mode(true);
+			TWS->close_after_data(true);
 			TWS->req_historical_data();
 			break;
-		case TWSOptions::details:
-			CLOG->info("TWSOptions::details");
-//			TWS.req_current_time();
-//			TWS.req_contract_data();
+		case TWSOptions::today:
+			CLOG->info("TWSOptions::today");
+			TWS->close_after_data(true);
+			TWS->get_todays_historical();
 			break;
 		case TWSOptions::live:
 			CLOG->info("TWSOptions::live");
-//			TWS.req_mrk_data();
-//			//TWS.req_realtime_bars(cntr, 5, show_items, use_rth);
-//			//TWS.req_realtime_bars();
+			TWS->req_all_open_orders();
+			TWS->req_mrk_data();
+//			TWS->req_realtime_bars();
 //			TWS.req_mrk_depth();
 			break;
 		case TWSOptions::pseudo:

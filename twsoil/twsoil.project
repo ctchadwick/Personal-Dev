@@ -8,6 +8,8 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="../../Code-Library/IB-codes/tws-order.hpp"/>
+    <File Name="../../Code-Library/IB-codes/tws-execution.hpp"/>
     <File Name="../../Code-Library/basic-websocket-server2.cpp"/>
     <File Name="../../Code-Library/basic-websocket-server2.hpp"/>
     <File Name="../../Code-Library/IB-codes/vwap-signal-agent.hpp"/>
@@ -51,7 +53,7 @@
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
-    <Configuration Name="Debug" CompilerType="Cross GCC ( i686-w64-mingw32 )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Debug" CompilerType="Cross GCC ( x86_64-w64-mingw32 )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g;-O0;-std=c++14;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="$(BoostIncludes)"/>
         <IncludePath Value="$(WorkspaceCodeLib)"/>
@@ -79,6 +81,7 @@
         <Library Value="boost_context-$(blibsuffix)"/>
         <Library Value="boost_regex-$(blibsuffix)"/>
         <Library Value="boost_program_options-$(blibsuffix)"/>
+        <Library Value="boost_random-$(blibsuffix)"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(BinRepo)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
