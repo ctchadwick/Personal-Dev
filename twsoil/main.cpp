@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
 		}
 		
 		std::shared_ptr<TWSClient> TWS = std::make_shared<TWSClient>(CREDS, *TDB, ATP);
+		TDB->sig_notify_subscribe.Connect(TWS.get(), &TWSClient::bulk_subscribe);
 		TWS->run();
 									
 		switch(ARGS.mode)
@@ -84,9 +85,12 @@ int main(int argc, char *argv[])
 		case TWSOptions::live:
 			CLOG->info("TWSOptions::live");
 			TWS->req_all_open_orders();
-			TWS->req_mrk_data();
-//			TWS->req_realtime_bars();
-//			TWS.req_mrk_depth();
+			//TWS->req_auto_open_orders();
+			//TWS->req_open_orders();
+			//TWS->req_account_updates(true);
+			TWS->req_positions();
+			TWS->bulk_subscribe();
+			TWS->fivesec_archive();
 			break;
 		case TWSOptions::pseudo:
 			CLOG->info("TWSOptions::pseudo");
