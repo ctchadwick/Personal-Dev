@@ -58,6 +58,8 @@ int main(int argc, char *argv[])
 		
 		std::shared_ptr<TWSClient> TWS = std::make_shared<TWSClient>(CREDS, *TDB, ATP);
 		TDB->sig_notify_subscribe.Connect(TWS.get(), &TWSClient::bulk_subscribe);
+		TDB->sig_notify_unsubscribe.Connect(TWS.get(), &TWSClient::bulk_unsubscribe);
+		TDB->sig_notify_place_order.Connect(TWS.get(), &TWSClient::place_order);
 		TWS->run();
 									
 		switch(ARGS.mode)
@@ -91,6 +93,7 @@ int main(int argc, char *argv[])
 			TWS->req_positions();
 			TWS->bulk_subscribe();
 			TWS->fivesec_archive();
+			TDB->subscribe_to_activity();
 			break;
 		case TWSOptions::pseudo:
 			CLOG->info("TWSOptions::pseudo");
