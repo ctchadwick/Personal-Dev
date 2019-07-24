@@ -13,10 +13,10 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Chadwick
-Date                   :=19/06/2018
+Date                   :=11/07/2019
 CodeLitePath           :="C:/Program Files (x86)/CodeLite"
-LinkerName             :=C:/MinGW/bin/x86_64-w64-mingw32-g++.exe
-SharedObjectLinkerName :="C:/MinGW/bin/x86_64-w64-mingw32-g++.exe" -shared -fPIC
+LinkerName             :=C:/mingw64-810/bin/g++.exe
+SharedObjectLinkerName :="C:/mingw64-810/bin/g++.exe" -shared -fPIC
 ObjectSuffix           :=.o
 DependSuffix           :=.o.d
 PreprocessSuffix       :=.i
@@ -36,7 +36,7 @@ ObjectsFileList        :="twsoil-bt.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=makedir
 RcCmpOptions           := 
-RcCompilerName         :=C:/MinGW/bin/windres.exe
+RcCompilerName         :=C:/mingw64-810/bin/windres.exe
 LinkOptions            :=  
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch)$(BoostIncludes) $(IncludeSwitch)$(WorkspaceCodeLib) $(IncludeSwitch)$(WorkspaceCodeLib)/date/include $(IncludeSwitch)$(WorkspaceCodeLib)/strtk $(IncludeSwitch)$(WorkspaceCodeLib)/IB-Codes $(IncludeSwitch)$(WorkspaceCodeLib)/spdlog 
 IncludePCH             := 
@@ -49,13 +49,13 @@ LibPath                := $(LibraryPathSwitch). $(LibraryPathSwitch)$(BoostLibra
 ## Common variables
 ## AR, CXX, CC, AS, CXXFLAGS and CFLAGS can be overriden using an environment variables
 ##
-AR       := "C:/MinGW/bin/x86_64-w64-mingw32-gcc-ar.exe" rcu
-CXX      := C:/MinGWx64/bin/x86_64-w64-mingw32-g++.exe
-CC       := C:/MinGW/bin/x86_64-w64-mingw32-gcc.exe
+AR       := "C:/mingw64-810/bin/ar.exe" rcu
+CXX      := C:/mingw64-810/bin/g++.exe
+CC       := C:/mingw64-810/bin/gcc.exe
 CXXFLAGS :=  -g -O0 -std=c++14 -Wall $(Preprocessors)
 CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
 ASFLAGS  := 
-AS       := C:/MinGW/bin/as.exe
+AS       := C:/mingw64-810/bin/as.exe
 
 
 ##
@@ -64,10 +64,14 @@ AS       := C:/MinGW/bin/as.exe
 CodeLiteDir:=C:\Program Files\CodeLite
 WorkspaceCodeLib:="C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library"
 BinRepo:=C:\Users\Chadwick\Desktop\MCM-Options-CTC\Codes-Etc\CodeLite-Workspace\bin
-BoostIncludes:=C:\Boost\include\boost-1_67
+WorkBinRepo:=C:\Users\Chadwick\Desktop\MCM-Options-CTC\Codes-Etc\Work-Codelite-Workspace\bin
+BoostIncludes:=C:\Boost\include\boost-1_69
 BoostLibraries:=C:\Boost\lib
-blibsuffix:=mgw72-mt-x64-1_67
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) $(IntermediateDirectory)/vwap-signal-agent.cpp$(ObjectSuffix) 
+blibsuffix:=mgw81-mt-x64-1_69
+blibsuffix-dll:=mgw81-mt-x64-1_69.dll
+blibsuffix32:=mgw81-mt-x32-1_69
+blibsuffix32-dll:=mgw81-mt-x32-1_69.dll
+Objects0=$(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) $(IntermediateDirectory)/position-manager.cpp$(ObjectSuffix) $(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix) $(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) 
 
 
 
@@ -98,14 +102,6 @@ PreBuild:
 ##
 ## Objects
 ##
-$(IntermediateDirectory)/main.cpp$(ObjectSuffix): main.cpp $(IntermediateDirectory)/main.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/CodeLite-Workspace/twsoil-bt/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/main.cpp$(DependSuffix): main.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/main.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/main.cpp$(DependSuffix) -MM main.cpp
-
-$(IntermediateDirectory)/main.cpp$(PreprocessSuffix): main.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/main.cpp$(PreprocessSuffix) main.cpp
-
 $(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp $(IntermediateDirectory)/orderflow-utils.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/orderflow-utils.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/orderflow-utils.cpp$(DependSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp
@@ -114,13 +110,37 @@ $(IntermediateDirectory)/orderflow-utils.cpp$(DependSuffix): ../../Code-Library/
 $(IntermediateDirectory)/orderflow-utils.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/orderflow-utils.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/orderflow-utils.cpp
 
-$(IntermediateDirectory)/vwap-signal-agent.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/vwap-signal-agent.cpp $(IntermediateDirectory)/vwap-signal-agent.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/vwap-signal-agent.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/vwap-signal-agent.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/vwap-signal-agent.cpp$(DependSuffix): ../../Code-Library/IB-codes/vwap-signal-agent.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/vwap-signal-agent.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/vwap-signal-agent.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/vwap-signal-agent.cpp
+$(IntermediateDirectory)/position-manager.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/position-manager.cpp $(IntermediateDirectory)/position-manager.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/position-manager.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/position-manager.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/position-manager.cpp$(DependSuffix): ../../Code-Library/IB-codes/position-manager.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/position-manager.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/position-manager.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/position-manager.cpp
 
-$(IntermediateDirectory)/vwap-signal-agent.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/vwap-signal-agent.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/vwap-signal-agent.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/vwap-signal-agent.cpp
+$(IntermediateDirectory)/position-manager.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/position-manager.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/position-manager.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/position-manager.cpp
+
+$(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/volume-trigger-agent.cpp $(IntermediateDirectory)/volume-trigger-agent.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/volume-trigger-agent.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/volume-trigger-agent.cpp$(DependSuffix): ../../Code-Library/IB-codes/volume-trigger-agent.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/volume-trigger-agent.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/volume-trigger-agent.cpp
+
+$(IntermediateDirectory)/volume-trigger-agent.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/volume-trigger-agent.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/volume-trigger-agent.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/volume-trigger-agent.cpp
+
+$(IntermediateDirectory)/main.cpp$(ObjectSuffix): main.cpp $(IntermediateDirectory)/main.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/CodeLite-Workspace/twsoil-bt/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/main.cpp$(DependSuffix): main.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/main.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/main.cpp$(DependSuffix) -MM main.cpp
+
+$(IntermediateDirectory)/main.cpp$(PreprocessSuffix): main.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/main.cpp$(PreprocessSuffix) main.cpp
+
+$(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix): ../../Code-Library/hi-res-time2.cpp $(IntermediateDirectory)/hi-res-time2.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/hi-res-time2.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/hi-res-time2.cpp$(DependSuffix): ../../Code-Library/hi-res-time2.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/hi-res-time2.cpp$(DependSuffix) -MM ../../Code-Library/hi-res-time2.cpp
+
+$(IntermediateDirectory)/hi-res-time2.cpp$(PreprocessSuffix): ../../Code-Library/hi-res-time2.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/hi-res-time2.cpp$(PreprocessSuffix) ../../Code-Library/hi-res-time2.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

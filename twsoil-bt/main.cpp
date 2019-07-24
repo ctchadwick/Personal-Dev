@@ -16,12 +16,16 @@
 #include "hi-res-time2.hpp"
 #include "fast-log2.hpp"
 
-#include "vwap-signal-agent.hpp"
+#include "tws-cmdline.hpp"
 
+#include "volume-trigger-agent.hpp"
+// --------------------------------------------------------------------------------------------------
 
 typedef Instruments::RealTimeBarData RTBar;
 typedef std::vector<RTBar> RTBarVec;
 
+
+// --------------------------------------------------------------------------------------------------
 void file_to_rtbars(const std::string& file, RTBarVec& bars)
 {
 	const boost::posix_time::ptime time_epoch{boost::gregorian::date{1970,1,1}, boost::posix_time::time_duration{0,0,0}};
@@ -55,6 +59,7 @@ void file_to_rtbars(const std::string& file, RTBarVec& bars)
 				
 		b.ibtimestamp = (bartime - time_epoch).total_seconds() + 4*3600;
 		b.set_time();
+		b.conid = 1;
 		
 		if(bartime < bst || bartime > bet)
 			continue;
@@ -63,65 +68,104 @@ void file_to_rtbars(const std::string& file, RTBarVec& bars)
 	}
 } 
 
+// --------------------------------------------------------------------------------------------------
 struct _logger
 {
 	_logger()
 	{
-		//CLOG = spdlog::get("console");
+		CLOG = spdlog::get("console");
 	}
 	void print(const std::string& msg)
 	{
-		//CLOG->warn(msg);
-		std::cout << msg << std::endl;
+		CLOG->info(msg);
 	}
 	
-	//std::shared_ptr<spdlog::logger> CLOG;
+	std::shared_ptr<spdlog::logger> CLOG;
 };
 
-const std::string run_backtest(const std::string& file, int32 wind, double ltgt)
+// --------------------------------------------------------------------------------------------------
+const std::string run_backtest(const std::string& file, double& pnl, _logger& logger)
 {
-	VWAPSignalAgent VWAP(wind, file);
-	VWAP.set_trade_parameters(0.6, ltgt, 0.02, 0.04, true);
+	int32 cid = 1;
+	std::tuple<int32, int32, int32> windows = std::make_tuple(12, 60, 120);
+	std::tuple<double, double, int32, int32> thresholds = std::make_tuple(6.0, -0.15, 80, 240);
 	
+	VolumeTriggerAgent agent(cid, windows, thresholds);
+	agent.sig_notify_msg.Connect(&logger, &_logger::print);
+		
 	RTBarVec bars;
 	file_to_rtbars(file, bars);
 	
-	boost::random::mt19937 RNG;
-	boost::random::uniform_int_distribution<> off(0,2);
+//	boost::random::mt19937 RNG;
+//	boost::random::uniform_int_distribution<> off(0,2);
 	
 	for(auto&& bar : bars)
 	{
-		VWAP.update_bidask(bar.close - off(RNG)*0.01, bar.close + off(RNG)*0.01);
-		VWAP.update_from_5sec_bar(bar);
+		agent.update_from_5sec_bar(bar);
 	}
 	
-	VWAP.close_cur_position();
-	VWAP.save_trades();
-	return VWAP.print_csv();
+	pnl += agent.m_total_pnl;
+	
+//	VWAP.close_cur_position();
+//	VWAP.save_trades();
+	return "";
 }
 
-void execute_bulk_backtest()
+// --------------------------------------------------------------------------------------------------
+void execute_bulk_backtest(const std::string& mfifile, _logger& logger)
 {
-	std::vector<std::string> files = {
-		"CL-5sec-20180430.csv", "CL-5sec-20180502.csv", "CL-5sec-20180503.csv",
-		"CL-5sec-20180508.csv", "CL-5sec-20180509.csv", "CL-5sec-20180510.csv"
-//		"CL-5sec-20180511.csv", "CL-5sec-20180515.csv", "CL-5sec-20180516.csv",
-//		"CL-5sec-20180517.csv", "CL-5sec-20180523.csv", "CL-5sec-20180524.csv",
-//		"CL-5sec-20180525.csv", "CL-5sec-20180529.csv", "CL-5sec-20180530.csv",
-//		"CL-5sec-20180601.csv", "CL-5sec-20180604.csv", "CL-5sec-20180605.csv",
-//		"CL-5sec-20180606.csv", "CL-5sec-20180607.csv", "CL-5sec-20180608.csv",
-//		"CL-5sec-20180611.csv", "CL-5sec-20180612.csv", "CL-5sec-20180613.csv",
-//		"CL-5sec-20180614.csv", "CL-5sec-20180615.csv", "CL-5sec-20180618.csv"
-		};
+	// load master-file-detail
+	// expecting: header for first line
+	// 00:File:			cleaned/CLM8-5sec-20180503.csv,
+	// 01:Nfile:		13,
+	// 02:SetStart:		2018-05-03 09:34:30,
+	// 03:SetEnd:		2018-05-03 16:34:30,
+	// 04:SetLength:	5041,
+	// 05:SetNGaps:		0,
+	// 06:SetNDups:		0,
+	// 07:Range:		T08:30/T15:00,
+	// 08:HasFullRange:	FALSE,
+	// 09:RngDiff:		762,
+	// 10:RngStart:		2018-05-03 09:34:30,
+	// 11:RngEnd:		2018-05-03 15:00:55,
+	// 12:RngLength:	3918,
+	// 13:RngNGaps:	0,
+	// 14:RngNDups:	0,
+	// 15:Usable:		TRUE,
+	// 16:ForTraining:	FALSE,
+	// 17:Notes:		
+
+	double pnl = 0.0;
+	int fcnt = 1;
+	std::vector<std::string> mfis;
+	mcm_assorted::for_each_line(mfifile, mfis);
+	for(auto&& f : mfis)
+	{
+		std::vector<std::string> sv;
+		strtk::parse(f, ",", sv);
+		if(sv.size() < 17)
+			continue;
+			
+		if(sv[16] == "TRUE")
+		{
+			logger.print(fmt::format("{:s}|is training:{:s}", sv[0], sv[16]));
+			run_backtest(sv[0], pnl, logger);
+			if(fcnt++ >= 1)
+				break;
+		}
+	}
 	
-	for(auto&& f : files)
-		std::cout << run_backtest(f, 1, 0.1) << std::endl;
+	logger.print(fmt::format("Total pnl:{:f}", pnl));
 }
 
 // ------------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------------
 int main(int argc, char *argv[])
 {
+	CommandArguments2 ARGS;
+	if(handle_cmd_input2(argc, argv, ARGS) != 0)
+		return 1;
+	
 	Credentials CREDS;
 	if(!CREDS.hasgroup("consolelog"))
 	{
@@ -134,29 +178,8 @@ int main(int argc, char *argv[])
 	CLOG->set_pattern(CREDS["consolelog.pattern"]);
 	CLOG->set_level(spdlog::level::from_str(CREDS["consolelog.level"]));
 	_logger logger;
-	
-//	VWAPSignalAgent VWAP(10, "BT-sma");
-//	VWAP.set_trade_parameters(0.6, 0.06, 0.01, 0.02, true);
-//	
-//	//DEPTH->sig_notify_depth_balance.Connect(VWAP003.get(), &VWAPSignalAgent::update_bidask_balance);
-//	//VWAP.sig_notify_msg.Connect(&logger, &_logger::print);
-//	
-//	RTBarVec bars;
-//	file_to_rtbars(argv[1], bars);
-//		
-//	for(auto&& bar : bars)
-//	{
-//		//CLOG->warn(bar.print());
-//		VWAP.update_bidask(bar.close - 0.01, bar.close + 0.01);
-//		VWAP.update_from_5sec_bar(bar);
-//	}
-//	
-//	VWAP.close_cur_position();
-//	VWAP.save_trades();
-//	//CLOG->warn(VWAP.print());
-//	logger.print(VWAP.print_csv(true));
-	
-	execute_bulk_backtest();
+		
+	execute_bulk_backtest(ARGS.mfi, logger);
 	
 	return 0;
 }

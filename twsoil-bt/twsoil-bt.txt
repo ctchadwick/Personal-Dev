@@ -1,1 +1,1 @@
-./Debug/main.cpp.o ./Debug/orderflow-utils.cpp.o ./Debug/vwap-signal-agent.cpp.o   
+./Debug/orderflow-utils.cpp.o ./Debug/position-manager.cpp.o ./Debug/volume-trigger-agent.cpp.o ./Debug/main.cpp.o ./Debug/hi-res-time2.cpp.o   

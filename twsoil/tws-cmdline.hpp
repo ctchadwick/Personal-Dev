@@ -22,7 +22,8 @@ namespace TWSOptions
 		today,
 		histogram,
 		live,
-		pseudo 	
+		pseudo,
+		morning
 	};
 	
 	// -----------------------------------------------------------------------
@@ -35,6 +36,7 @@ namespace TWSOptions
 		if(s == "histogram") return histogram;
 		if(s == "live") return live;
 		if(s == "pseudo") return pseudo;
+		if(s == "morning") return morning;
 		return error;
 	}
 }
@@ -117,5 +119,72 @@ inline int handle_cmd_input(int argc, char* argv[], CommandArguments& args)
 
 	return 1;
 }
+
+
+// ------------------------------------------------------------------------------------------------------
+struct CommandArguments2
+{
+	// -----------------------------------------------------------------------
+	CommandArguments2()
+	: mfi("master-file-info.csv")
+	{}
+
+	// -----------------------------------------------------------------------
+	std::string					mfi;
+};
+
+// ------------------------------------------------------------------------------------------------------
+inline int handle_cmd_input2(int argc, char* argv[], CommandArguments2& args)
+{
+	namespace po = boost::program_options;
+	try
+	{
+		po::options_description desc("Allowed options");
+		desc.add_options()
+			("help", "usage instructions")
+			("mfi", po::value<std::string>(), "master file info csv file to use, default is master-file-info.csv")
+			;
+
+		po::variables_map vm;
+	    po::store(po::parse_command_line(argc, argv, desc), vm);
+	    po::notify(vm);
+
+	    if(vm.empty())
+	    {
+	    	std::cout << desc << std::endl;
+	    	return 2;
+	    }
+
+	    for(auto&& p : vm)
+		{
+		    if(p.first == "help")
+		    {
+		    	std::cout << desc << std::endl;
+		    	return 2;
+		    }
+
+		    if(p.first == "mfi")
+		    	args.mfi = p.second.as<std::string>();
+	    }
+
+	    return 0;
+
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << "error: " << e.what() << std::endl;
+		return 1;
+	}
+	catch(...)
+	{
+		std::cerr << "unknown exception" << std::endl;
+		return 1;
+	}
+
+	return 1;
+}
+
+
+
 
 #endif

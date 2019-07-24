@@ -8,6 +8,8 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="../../Code-Library/IB-codes/short-term-agent.hpp"/>
+    <File Name="../../Code-Library/IB-codes/short-term-agent.cpp"/>
     <File Name="../../Code-Library/IB-codes/trade-position.hpp"/>
     <File Name="../../Code-Library/IB-codes/position-manager.hpp"/>
     <File Name="../../Code-Library/IB-codes/position-manager.cpp"/>

@@ -102,6 +102,12 @@ int main(int argc, char *argv[])
 //			//TWS.req_realtime_bars();
 //			TWS.req_mrk_depth();
 			break;
+		case TWSOptions::morning:
+			CLOG->info("TWSOptions::morning");
+			TWS->req_current_time();
+			TWS->get_todays_historical();
+			TWS->fivesec_archive();
+			break;
 		default:
 			break;
 		}
