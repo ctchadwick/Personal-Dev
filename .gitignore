@@ -19,6 +19,8 @@ local.properties
 Makefile
 .codelite
 cmesettles/
+functest/
+talib/
 
 # External tool builders
 .externalToolBuilders/

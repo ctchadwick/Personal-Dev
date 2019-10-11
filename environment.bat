@@ -1,0 +1,13 @@
+set CodeLiteDir=C:\Program Files\CodeLite
+set WorkspaceCodeLib="C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library"
+set BinRepo=C:\Users\Chadwick\Desktop\MCM-Options-CTC\Codes-Etc\CodeLite-Workspace\bin
+set WorkBinRepo=C:\Users\Chadwick\Desktop\MCM-Options-CTC\Codes-Etc\Work-Codelite-Workspace\bin
+set BoostIncludes=C:\Boost\include\boost-1_69
+set BoostLibraries=C:\Boost\lib
+set blibsuffix=mgw81-mt-x64-1_69
+set blibsuffix-dll=mgw81-mt-x64-1_69.dll
+set blibsuffix32=mgw81-mt-x32-1_69
+set blibsuffix32-dll=mgw81-mt-x32-1_69.dll
+set WXWIN=C:\wxWidgets\3.1.2
+set OpenSSLIncludes="C:\Program Files\OpenSSL-Win64\include"
+set OpenSSLLibraries="C:\Program Files\OpenSSL-Win64\lib"

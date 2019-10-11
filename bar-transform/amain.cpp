@@ -16,9 +16,10 @@
 #include "hi-res-time2.hpp"
 #include "fast-log2.hpp"
 
+#include "tws-dataspace.hpp"
+#include "tws-market-data.hpp"
 #include "tws-cmdline.hpp"
 
-#include "volume-trigger-agent.hpp"
 // --------------------------------------------------------------------------------------------------
 
 typedef Instruments::RealTimeBarData RTBar;
@@ -76,10 +77,10 @@ struct _logger
 {
 	_logger()
 	{
-		std::string hdr = "file,conid,loc_ordid,ib_ordid,type,status,opentime,closetime,lowtime,hightime,open,close,low,high,side,qty,ordqty,remaining_qty,commission,multiplier,neg_nbars,nbars,pnl,unit_pnl,tgtloss,clsreason,srcstr,m_rvar,m_rmean,m_rzs,m_cur_bid,m_cur_ask,m_bid_balance,m_ask_balance,m60,m120,m240,m480,smoms,para3,t3,month,running_pnl";
+		//std::string hdr = "file,conid,loc_ordid,ib_ordid,type,status,opentime,closetime,lowtime,hightime,open,close,low,high,side,qty,ordqty,remaining_qty,commission,multiplier,neg_nbars,nbars,pnl,unit_pnl,tgtloss,clsreason,srcstr,m_rvar,m_rmean,m_rzs,m_cur_bid,m_cur_ask,m_bid_balance,m_ask_balance,m60,m120,m240,m480,smoms,para3,t3,month,running_pnl";
 		CLOG = spdlog::get("console");
-		ofs.open("backtest.txt");
-		ofs << hdr << std::endl;
+		//ofs.open("backtest.txt");
+		//ofs << hdr << std::endl;
 		//ofs << std::endl;
 	}
 	
@@ -95,7 +96,7 @@ struct _logger
 	
 	void save(const std::string& msg)
 	{
-		ofs << msg << std::endl;
+		//ofs << msg << std::endl;
 	}
 	
 	std::ofstream ofs;
@@ -103,59 +104,43 @@ struct _logger
 };
 
 // --------------------------------------------------------------------------------------------------
-void run_backtest(const std::string& file, double& tpnl, _logger& logger)
+void transform_bars(const std::string& file, int thresh, _logger& logger)
 {
-	logger.print("in run_backtest");
-	
-	AlgoParameters AP;
-	AP.cid = 1;
-	AP.stralgo = "vtrig";
-	AP.is_testing = true;
-	
-	logger.print(AP.print());
-	
-	VolumeTriggerAgent agent(AP);
-	agent.sig_notify_msg.Connect(&logger, &_logger::print);
-	agent.setup();
-			
 	RTBarVec bars;
 	file_to_rtbars(file, bars);
-			
-//	boost::random::mt19937 RNG;
-//	boost::random::uniform_int_distribution<> off(0,2);
-	// take first 480 bars and initialize agent
-	BarVec regbars;
-	int index = 0;
-	int cutoff = std::min(480, (int)bars.size());
-	for(int i = 0; i < cutoff; i++)
-	{
-		BAR b;
-		b.from_realtimebar(bars[i]);
-		regbars.push_back(b);
-		index++;
-	}
 	
-	logger.print(fmt::format("processed [{:d}] rtbars into bars for initialization", index));
-	if(!agent.initialize(regbars, 1234))
-	{
-		logger.print(fmt::format("SKIPPING FILE [{:s}], size issue", file));
-		return;
-	}
-	
-	logger.print(fmt::format("staring data with: [{:s}]", bars[index].print()));
-	
-	for(int i = index; i < bars.size(); i++)
-		agent.update_from_5sec_bar(bars[i]);
+	// cleaned/CLM8-5sec-20180503.csv
+	std::vector<std::string> fs;
+	strtk::parse(file, "-", fs);
 		
-	std::for_each(agent.m_trades.begin(), agent.m_trades.end(), [&file, &tpnl, &logger](auto&& p)
-	{ 
-		tpnl += p.second.first.pnl;
-		logger.save(fmt::format("{:s},{:s},{:s},{:f}", file, p.second.first.print_csv(), p.second.second, tpnl));
-	});
+	std::string fn = fmt::format("{:s}-{:d}volbar-{:s}", fs[0], thresh, fs[2]);
+	std::ofstream ofs(fn.c_str());
+	ofs << "ibtimestamp,vwap,barvolume,remainder,n5secs" << std::endl;
+	
+	int index = 1;			
+	int ntix = 1;
+	int cumsum = 0;
+	int remainder = 0;
+	for(auto&& b : bars)
+	{
+		cumsum += b.volume;
+		ntix++;
+		if(cumsum >= thresh)
+		{
+			remainder = std::max(cumsum-thresh, 0);
+			ofs << fmt::format("{:d},{:f},{:d},{:d},{:d}", b.ibtimestamp, b.average, cumsum-remainder, remainder, ntix);
+			ofs << std::endl;
+			index++;
+			cumsum = remainder;
+			ntix = 1;
+		}
+	}
+	
+	logger.print(fmt::format("n volume bars created [{:d}]", index));
 }
 
 // --------------------------------------------------------------------------------------------------
-void execute_bulk_backtest(const std::string& mfifile, _logger& logger)
+void execute_data_transform(const CommandArguments2& ARGS, _logger& logger)
 {
 	// load master-file-detail
 	// expecting: header for first line
@@ -178,10 +163,9 @@ void execute_bulk_backtest(const std::string& mfifile, _logger& logger)
 	// 16:ForTraining:	FALSE,
 	// 17:Notes:		
 
-	double pnl = 0.0;
 	int fcnt = 1;
 	std::vector<std::string> mfis;
-	mcm_assorted::for_each_line(mfifile, mfis);
+	mcm_assorted::for_each_line(ARGS.mfi, mfis);
 	bool skip_header = true;
 	for(auto&& f : mfis)
 	{
@@ -199,16 +183,17 @@ void execute_bulk_backtest(const std::string& mfifile, _logger& logger)
 		if(sv.size() < 17)
 			continue;
 		
-		if(sv[16] != "TRUE")
-		{
-			logger.print(fmt::format("{:s}|is training:{:s}", sv[0], sv[16]));
-			run_backtest(sv[0], pnl, logger);
-			//if(fcnt++ >= 2)
-			//	break;
-		}
+		if(sv[15] != "TRUE")
+			continue;
+			
+		transform_bars(sv[0], ARGS.thresh, logger);
+		
+		if(ARGS.testing)
+			if(fcnt++ >= 1)
+				break;
 	}
 	
-	logger.print(fmt::format("Total pnl:{:f}", pnl));
+	//logger.print(fmt::format("Total pnl:{:f}", pnl));
 }
 
 // ------------------------------------------------------------------------------------------------------
@@ -232,7 +217,7 @@ int main(int argc, char *argv[])
 	CLOG->set_level(spdlog::level::from_str(CREDS["consolelog.level"]));
 	_logger logger;
 		
-	execute_bulk_backtest(ARGS.mfi, logger);
+	execute_data_transform(ARGS, logger);
 	
 	return 0;
 }

@@ -78,6 +78,11 @@ int main(int argc, char *argv[])
 			CLOG->info("TWSOptions::history");
 			TWS->close_after_data(true);
 			TWS->req_historical_data();
+		case TWSOptions::history_only:
+			CLOG->info("TWSOptions::history-only");
+			TWS->req_current_time();
+			TWS->close_after_data(true);
+			TWS->get_daily_historical_data(ARGS.details);
 			break;
 		case TWSOptions::today:
 			CLOG->info("TWSOptions::today");
@@ -91,16 +96,9 @@ int main(int argc, char *argv[])
 			//TWS->req_open_orders();
 			//TWS->req_account_updates(true);
 			TWS->req_positions();
+			TDB->begin_tracking();
 			TWS->bulk_subscribe();
 			TWS->fivesec_archive();
-			TDB->subscribe_to_activity();
-			break;
-		case TWSOptions::pseudo:
-			CLOG->info("TWSOptions::pseudo");
-//			TWS.req_mrk_data();
-//			//TWS.req_realtime_bars(cntr, 5, show_items, use_rth);
-//			//TWS.req_realtime_bars();
-//			TWS.req_mrk_depth();
 			break;
 		case TWSOptions::morning:
 			CLOG->info("TWSOptions::morning");
@@ -109,6 +107,7 @@ int main(int argc, char *argv[])
 			TWS->fivesec_archive();
 			break;
 		default:
+			CLOG->warn("got ill specd option...");
 			break;
 		}
 	

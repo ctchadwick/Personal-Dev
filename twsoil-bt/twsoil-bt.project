@@ -8,14 +8,14 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="../../Code-Library/mcm-assorted.hpp"/>
+    <File Name="../../Code-Library/IB-codes/algoparameters.hpp"/>
     <File Name="../../Code-Library/IB-codes/volume-trigger-agent.hpp"/>
     <File Name="../../Code-Library/IB-codes/volume-trigger-agent.cpp"/>
     <File Name="../../Code-Library/hi-res-time2.hpp"/>
     <File Name="../../Code-Library/hi-res-time2.cpp"/>
     <File Name="../../Code-Library/IB-codes/tws-cmdline.hpp"/>
     <File Name="../../Code-Library/IB-codes/trade-position.hpp"/>
-    <File Name="../../Code-Library/IB-codes/position-manager.hpp"/>
-    <File Name="../../Code-Library/IB-codes/position-manager.cpp"/>
     <File Name="../../Code-Library/IB-codes/tws-market-data.hpp"/>
     <File Name="../../Code-Library/IB-codes/tws-dataspace.hpp"/>
     <File Name="../../Code-Library/IB-codes/tws-contract.hpp"/>

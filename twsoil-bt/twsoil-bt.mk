@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Chadwick
-Date                   :=11/07/2019
+Date                   :=28/08/2019
 CodeLitePath           :="C:/Program Files (x86)/CodeLite"
 LinkerName             :=C:/mingw64-810/bin/g++.exe
 SharedObjectLinkerName :="C:/mingw64-810/bin/g++.exe" -shared -fPIC
@@ -71,7 +71,7 @@ blibsuffix:=mgw81-mt-x64-1_69
 blibsuffix-dll:=mgw81-mt-x64-1_69.dll
 blibsuffix32:=mgw81-mt-x32-1_69
 blibsuffix32-dll:=mgw81-mt-x32-1_69.dll
-Objects0=$(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) $(IntermediateDirectory)/position-manager.cpp$(ObjectSuffix) $(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix) $(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) $(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix) $(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) 
 
 
 
@@ -109,14 +109,6 @@ $(IntermediateDirectory)/orderflow-utils.cpp$(DependSuffix): ../../Code-Library/
 
 $(IntermediateDirectory)/orderflow-utils.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/orderflow-utils.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/orderflow-utils.cpp
-
-$(IntermediateDirectory)/position-manager.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/position-manager.cpp $(IntermediateDirectory)/position-manager.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/position-manager.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/position-manager.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/position-manager.cpp$(DependSuffix): ../../Code-Library/IB-codes/position-manager.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/position-manager.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/position-manager.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/position-manager.cpp
-
-$(IntermediateDirectory)/position-manager.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/position-manager.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/position-manager.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/position-manager.cpp
 
 $(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/volume-trigger-agent.cpp $(IntermediateDirectory)/volume-trigger-agent.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/volume-trigger-agent.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix) $(IncludePath)

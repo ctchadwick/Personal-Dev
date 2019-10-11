@@ -8,17 +8,15 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
-    <File Name="../../Code-Library/IB-codes/short-term-agent.hpp"/>
-    <File Name="../../Code-Library/IB-codes/short-term-agent.cpp"/>
+    <File Name="../../Code-Library/IB-codes/tws-cmdline.hpp"/>
+    <File Name="../../Code-Library/IB-codes/algoparameters.hpp"/>
+    <File Name="../../Code-Library/IB-codes/volume-trigger-agent.hpp"/>
+    <File Name="../../Code-Library/IB-codes/volume-trigger-agent.cpp"/>
     <File Name="../../Code-Library/IB-codes/trade-position.hpp"/>
-    <File Name="../../Code-Library/IB-codes/position-manager.hpp"/>
-    <File Name="../../Code-Library/IB-codes/position-manager.cpp"/>
     <File Name="../../Code-Library/IB-codes/tws-order.hpp"/>
     <File Name="../../Code-Library/IB-codes/tws-execution.hpp"/>
     <File Name="../../Code-Library/basic-websocket-server2.cpp"/>
     <File Name="../../Code-Library/basic-websocket-server2.hpp"/>
-    <File Name="../../Code-Library/IB-codes/vwap-signal-agent.hpp"/>
-    <File Name="../../Code-Library/IB-codes/vwap-signal-agent.cpp"/>
     <File Name="../../Code-Library/IB-codes/timesales-tracker.hpp"/>
     <File Name="../../Code-Library/IB-codes/timesales-tracker.cpp"/>
     <File Name="../../Code-Library/IB-codes/orderflow-utils.hpp"/>
@@ -45,7 +43,6 @@
     <File Name="../../Code-Library/thread-pooler2.hpp"/>
     <File Name="../../Code-Library/IB-codes/tws-client2.cpp"/>
     <File Name="../../Code-Library/IB-codes/tws-client2.hpp"/>
-    <File Name="tws-cmdline.hpp"/>
     <File Name="../../Code-Library/mcm-types.hpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">

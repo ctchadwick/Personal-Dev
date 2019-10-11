@@ -19,10 +19,10 @@ namespace TWSOptions
 		help,
 		archive,
 		history,
+		history_only,
 		today,
 		histogram,
 		live,
-		pseudo,
 		morning
 	};
 	
@@ -32,10 +32,10 @@ namespace TWSOptions
 		if(s == "help")	return help;
 		if(s == "archive") return archive;
 		if(s == "history") return history;
+		if(s == "history-only") return history_only;
 		if(s == "today") return today;
 		if(s == "histogram") return histogram;
 		if(s == "live") return live;
-		if(s == "pseudo") return pseudo;
 		if(s == "morning") return morning;
 		return error;
 	}
@@ -46,7 +46,7 @@ struct CommandArguments
 {
 	// -----------------------------------------------------------------------
 	CommandArguments()
-	: config_file("tws.ini"), expiry(-1.0), mode(TWSOptions::error), with_websocket(false)
+	: config_file("tws.ini"), expiry(-1.0), mode(TWSOptions::error), with_websocket(false), details("")
 	{}
 
 	// -----------------------------------------------------------------------
@@ -54,6 +54,7 @@ struct CommandArguments
 	double						expiry;
 	int32						mode;
 	bool						with_websocket;
+	std::string					details;
 };
 
 // ------------------------------------------------------------------------------------------------------
@@ -66,7 +67,8 @@ inline int handle_cmd_input(int argc, char* argv[], CommandArguments& args)
 		desc.add_options()
 			("help", "usage instructions")
 			("config", po::value<std::string>(), "config file to use, default is tws.ini")
-			("mode", po::value<std::string>(), "run mode, one of archive|history|today|histogram|live|pseudo")
+			("mode", po::value<std::string>(), "run mode, one of archive|today|histogram|live|pseudo")
+			("history-only", po::value<std::string>(), "get daily data history as db-symb;YYYYMMDD;resolution eg: CLU9;20190801;5 secs")
 			("expiry", po::value<std::string>(), "auto expiration time in HH:MM:SS 24-hr format, default is 17:01:00")
 			("with-ws", "run the affiliated websocket")
 			;
@@ -94,8 +96,14 @@ inline int handle_cmd_input(int argc, char* argv[], CommandArguments& args)
 		    	args.config_file = p.second.as<std::string>();
 
 		    if(p.first == "mode")
-		    	args.mode = TWSOptions::from_string(p.second.as<std::string>());
-
+				args.mode = TWSOptions::from_string(p.second.as<std::string>());
+				
+			if(p.first == "history-only")
+			{	
+				args.mode = TWSOptions::from_string(p.first);
+				args.details = p.second.as<std::string>();
+			}
+			
 		    if(p.first == "expiry")
 		       	args.expiry = strtime_to_double(p.second.as<std::string>());
 	
@@ -126,11 +134,13 @@ struct CommandArguments2
 {
 	// -----------------------------------------------------------------------
 	CommandArguments2()
-	: mfi("master-file-info.csv")
+	: mfi("master-file-info.csv"),
+	thresh(1000)
 	{}
 
 	// -----------------------------------------------------------------------
 	std::string					mfi;
+	int							thresh;
 };
 
 // ------------------------------------------------------------------------------------------------------
@@ -143,6 +153,7 @@ inline int handle_cmd_input2(int argc, char* argv[], CommandArguments2& args)
 		desc.add_options()
 			("help", "usage instructions")
 			("mfi", po::value<std::string>(), "master file info csv file to use, default is master-file-info.csv")
+			("thresh", po::value<int>(), "threshold for volume bar generation, default is 1000")
 			;
 
 		po::variables_map vm;
@@ -165,6 +176,9 @@ inline int handle_cmd_input2(int argc, char* argv[], CommandArguments2& args)
 
 		    if(p.first == "mfi")
 		    	args.mfi = p.second.as<std::string>();
+			
+			if(p.first == "thresh")
+				args.thresh = p.second.as<int>();
 	    }
 
 	    return 0;
