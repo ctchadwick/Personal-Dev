@@ -8,10 +8,12 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="../../Code-Library/IB-codes/indicator-utils.hpp"/>
+    <File Name="../../Code-Library/IB-codes/indicator-utils.cpp"/>
+    <File Name="../../Code-Library/IB-codes/idobos-trigger-agent.hpp"/>
+    <File Name="../../Code-Library/IB-codes/idobos-trigger-agent.cpp"/>
     <File Name="../../Code-Library/mcm-assorted.hpp"/>
     <File Name="../../Code-Library/IB-codes/algoparameters.hpp"/>
-    <File Name="../../Code-Library/IB-codes/volume-trigger-agent.hpp"/>
-    <File Name="../../Code-Library/IB-codes/volume-trigger-agent.cpp"/>
     <File Name="../../Code-Library/hi-res-time2.hpp"/>
     <File Name="../../Code-Library/hi-res-time2.cpp"/>
     <File Name="../../Code-Library/IB-codes/tws-cmdline.hpp"/>
@@ -19,10 +21,10 @@
     <File Name="../../Code-Library/IB-codes/tws-market-data.hpp"/>
     <File Name="../../Code-Library/IB-codes/tws-dataspace.hpp"/>
     <File Name="../../Code-Library/IB-codes/tws-contract.hpp"/>
-    <File Name="../../Code-Library/IB-codes/orderflow-utils.hpp"/>
-    <File Name="../../Code-Library/IB-codes/orderflow-utils.cpp"/>
     <File Name="main.cpp"/>
   </VirtualDirectory>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -34,7 +36,7 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
     <Configuration Name="Debug" CompilerType="Cross GCC ( x86_64-w64-mingw32 )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g;-O0;-std=c++14;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-g;-O0;-std=c++17;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="$(BoostIncludes)"/>
         <IncludePath Value="$(WorkspaceCodeLib)"/>
         <IncludePath Value="$(WorkspaceCodeLib)/date/include"/>

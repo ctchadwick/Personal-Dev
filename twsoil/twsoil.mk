@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Chadwick
-Date                   :=26/08/2019
+Date                   :=12/02/2020
 CodeLitePath           :="C:/Program Files (x86)/CodeLite"
 LinkerName             :=C:/mingw64-810/bin/g++.exe
 SharedObjectLinkerName :="C:/mingw64-810/bin/g++.exe" -shared -fPIC
@@ -61,18 +61,21 @@ AS       := C:/mingw64-810/bin/as.exe
 ##
 ## User defined environment variables
 ##
-CodeLiteDir:=C:\Program Files\CodeLite
-WorkspaceCodeLib:="C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library"
-BinRepo:=C:\Users\Chadwick\Desktop\MCM-Options-CTC\Codes-Etc\CodeLite-Workspace\bin
-WorkBinRepo:=C:\Users\Chadwick\Desktop\MCM-Options-CTC\Codes-Etc\Work-Codelite-Workspace\bin
-BoostIncludes:=C:\Boost\include\boost-1_69
-BoostLibraries:=C:\Boost\lib
-blibsuffix:=mgw81-mt-x64-1_69
-blibsuffix-dll:=mgw81-mt-x64-1_69.dll
-blibsuffix32:=mgw81-mt-x32-1_69
-blibsuffix32-dll:=mgw81-mt-x32-1_69.dll
-Objects0=$(IntermediateDirectory)/fast-log2.cpp$(ObjectSuffix) $(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/tws-client2.cpp$(ObjectSuffix) $(IntermediateDirectory)/basic-websocket-server2.cpp$(ObjectSuffix) $(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix) $(IntermediateDirectory)/tws-tracker-database4.cpp$(ObjectSuffix) $(IntermediateDirectory)/timesales-tracker.cpp$(ObjectSuffix) $(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) $(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) $(IntermediateDirectory)/depth-tracker.cpp$(ObjectSuffix) \
-	
+CodeLiteDir:=C:/Program Files/CodeLite
+WorkspaceCodeLib:=C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library
+BinRepo:=C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/CodeLite-Workspace/bin
+WorkBinRepo:=C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Work-Codelite-Workspace/bin
+BoostIncludes:=C:/Boost/include/boost-1_71
+BoostLibraries:=C:/Boost/lib
+blibsuffix:=mgw81-mt-x64-1_71
+blibsuffix-dll:=mgw81-mt-x64-1_71.dll
+blibsuffix32:=mgw81-mt-x32-1_71
+blibsuffix32-dll:=mgw81-mt-x32-1_71.dll
+OpenSSLIncludes:=C:/Program Files/OpenSSL-Win64/include
+OpenSSLLibraries:=C:/Program Files/OpenSSL-Win64/lib
+npcap-includes:=C:/npcap-sdk/Include
+npcap-libraries:=C:/npcap-sdk/Lib/x64
+Objects0=$(IntermediateDirectory)/fast-log2.cpp$(ObjectSuffix) $(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/tws-client2.cpp$(ObjectSuffix) $(IntermediateDirectory)/basic-websocket-server2.cpp$(ObjectSuffix) $(IntermediateDirectory)/timesales-tracker.cpp$(ObjectSuffix) $(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) $(IntermediateDirectory)/depth-tracker.cpp$(ObjectSuffix) $(IntermediateDirectory)/tws-tracker-database4.cpp$(ObjectSuffix) 
 
 
 
@@ -135,22 +138,6 @@ $(IntermediateDirectory)/basic-websocket-server2.cpp$(DependSuffix): ../../Code-
 $(IntermediateDirectory)/basic-websocket-server2.cpp$(PreprocessSuffix): ../../Code-Library/basic-websocket-server2.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/basic-websocket-server2.cpp$(PreprocessSuffix) ../../Code-Library/basic-websocket-server2.cpp
 
-$(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/volume-trigger-agent.cpp $(IntermediateDirectory)/volume-trigger-agent.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/volume-trigger-agent.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/volume-trigger-agent.cpp$(DependSuffix): ../../Code-Library/IB-codes/volume-trigger-agent.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/volume-trigger-agent.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/volume-trigger-agent.cpp
-
-$(IntermediateDirectory)/volume-trigger-agent.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/volume-trigger-agent.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/volume-trigger-agent.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/volume-trigger-agent.cpp
-
-$(IntermediateDirectory)/tws-tracker-database4.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/tws-tracker-database4.cpp $(IntermediateDirectory)/tws-tracker-database4.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/tws-tracker-database4.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tws-tracker-database4.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/tws-tracker-database4.cpp$(DependSuffix): ../../Code-Library/IB-codes/tws-tracker-database4.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/tws-tracker-database4.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/tws-tracker-database4.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/tws-tracker-database4.cpp
-
-$(IntermediateDirectory)/tws-tracker-database4.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/tws-tracker-database4.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tws-tracker-database4.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/tws-tracker-database4.cpp
-
 $(IntermediateDirectory)/timesales-tracker.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/timesales-tracker.cpp $(IntermediateDirectory)/timesales-tracker.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/timesales-tracker.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/timesales-tracker.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/timesales-tracker.cpp$(DependSuffix): ../../Code-Library/IB-codes/timesales-tracker.cpp
@@ -158,14 +145,6 @@ $(IntermediateDirectory)/timesales-tracker.cpp$(DependSuffix): ../../Code-Librar
 
 $(IntermediateDirectory)/timesales-tracker.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/timesales-tracker.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/timesales-tracker.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/timesales-tracker.cpp
-
-$(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp $(IntermediateDirectory)/orderflow-utils.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/orderflow-utils.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/orderflow-utils.cpp$(DependSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/orderflow-utils.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/orderflow-utils.cpp
-
-$(IntermediateDirectory)/orderflow-utils.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/orderflow-utils.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/orderflow-utils.cpp
 
 $(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix): ../../Code-Library/hi-res-time2.cpp $(IntermediateDirectory)/hi-res-time2.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/hi-res-time2.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) $(IncludePath)
@@ -182,6 +161,14 @@ $(IntermediateDirectory)/depth-tracker.cpp$(DependSuffix): ../../Code-Library/IB
 
 $(IntermediateDirectory)/depth-tracker.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/depth-tracker.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/depth-tracker.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/depth-tracker.cpp
+
+$(IntermediateDirectory)/tws-tracker-database4.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/tws-tracker-database4.cpp $(IntermediateDirectory)/tws-tracker-database4.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/tws-tracker-database4.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tws-tracker-database4.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/tws-tracker-database4.cpp$(DependSuffix): ../../Code-Library/IB-codes/tws-tracker-database4.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/tws-tracker-database4.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/tws-tracker-database4.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/tws-tracker-database4.cpp
+
+$(IntermediateDirectory)/tws-tracker-database4.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/tws-tracker-database4.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tws-tracker-database4.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/tws-tracker-database4.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

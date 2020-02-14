@@ -10,8 +10,6 @@
   <VirtualDirectory Name="src">
     <File Name="../../Code-Library/IB-codes/tws-cmdline.hpp"/>
     <File Name="../../Code-Library/IB-codes/algoparameters.hpp"/>
-    <File Name="../../Code-Library/IB-codes/volume-trigger-agent.hpp"/>
-    <File Name="../../Code-Library/IB-codes/volume-trigger-agent.cpp"/>
     <File Name="../../Code-Library/IB-codes/trade-position.hpp"/>
     <File Name="../../Code-Library/IB-codes/tws-order.hpp"/>
     <File Name="../../Code-Library/IB-codes/tws-execution.hpp"/>
@@ -19,8 +17,6 @@
     <File Name="../../Code-Library/basic-websocket-server2.hpp"/>
     <File Name="../../Code-Library/IB-codes/timesales-tracker.hpp"/>
     <File Name="../../Code-Library/IB-codes/timesales-tracker.cpp"/>
-    <File Name="../../Code-Library/IB-codes/orderflow-utils.hpp"/>
-    <File Name="../../Code-Library/IB-codes/orderflow-utils.cpp"/>
     <File Name="../../Code-Library/IB-codes/depth-tracker.hpp"/>
     <File Name="../../Code-Library/IB-codes/depth-tracker.cpp"/>
     <File Name="../../Code-Library/IB-codes/tws-tracker-database4.hpp"/>
@@ -160,4 +156,6 @@
       </Completion>
     </Configuration>
   </Settings>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
 </CodeLite_Project>

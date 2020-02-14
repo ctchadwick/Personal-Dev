@@ -18,7 +18,7 @@
 
 #include "tws-cmdline.hpp"
 
-#include "volume-trigger-agent.hpp"
+#include "idobos-trigger-agent.hpp"
 // --------------------------------------------------------------------------------------------------
 
 typedef Instruments::RealTimeBarData RTBar;
@@ -103,18 +103,18 @@ struct _logger
 };
 
 // --------------------------------------------------------------------------------------------------
-void run_backtest(const std::string& file, double& tpnl, _logger& logger)
+void run_backtest(const std::string& file, double& tpnl, _logger& logger, std::ofstream& ofs)
 {
-	logger.print("in run_backtest");
+	//logger.print("in run_backtest");
 	
 	AlgoParameters AP;
 	AP.cid = 1;
-	AP.stralgo = "vtrig";
+	AP.stralgo = "idobos";
 	AP.is_testing = true;
 	
-	logger.print(AP.print());
+	//logger.print(AP.print());
 	
-	VolumeTriggerAgent agent(AP);
+	IntradayOBOSTriggerAgent agent(AP);
 	agent.sig_notify_msg.Connect(&logger, &_logger::print);
 	agent.setup();
 			
@@ -125,9 +125,9 @@ void run_backtest(const std::string& file, double& tpnl, _logger& logger)
 //	boost::random::uniform_int_distribution<> off(0,2);
 	// take first 480 bars and initialize agent
 	BarVec regbars;
-	int index = 0;
-	int cutoff = std::min(480, (int)bars.size());
-	for(int i = 0; i < cutoff; i++)
+	size_t index = 0;
+	int cutoff = std::min(100, (int)bars.size());
+	for(size_t i = 0; i < cutoff; i++)
 	{
 		BAR b;
 		b.from_realtimebar(bars[i]);
@@ -135,22 +135,23 @@ void run_backtest(const std::string& file, double& tpnl, _logger& logger)
 		index++;
 	}
 	
-	logger.print(fmt::format("processed [{:d}] rtbars into bars for initialization", index));
+	//logger.print(fmt::format("processed [{:d}] rtbars into bars for initialization", index));
 	if(!agent.initialize(regbars, 1234))
 	{
 		logger.print(fmt::format("SKIPPING FILE [{:s}], size issue", file));
 		return;
 	}
 	
-	logger.print(fmt::format("staring data with: [{:s}]", bars[index].print()));
+	//logger.print(fmt::format("staring data with: [{:s}]", bars[index].print()));
 	
-	for(int i = index; i < bars.size(); i++)
+	for(size_t i = index; i < bars.size(); i++)
 		agent.update_from_5sec_bar(bars[i]);
 		
-	std::for_each(agent.m_trades.begin(), agent.m_trades.end(), [&file, &tpnl, &logger](auto&& p)
+	std::for_each(agent.m_trades.begin(), agent.m_trades.end(), [&file, &tpnl, &logger, &ofs](auto&& p)
 	{ 
 		tpnl += p.second.first.pnl;
-		logger.save(fmt::format("{:s},{:s},{:s},{:f}", file, p.second.first.print_csv(), p.second.second, tpnl));
+		//logger.save(fmt::format("{:s},{:s},{:s},{:f}", file, p.second.first.print_csv(), p.second.second, tpnl));
+		ofs << p.second.first.print_csv() << std::endl;
 	});
 }
 
@@ -176,8 +177,12 @@ void execute_bulk_backtest(const std::string& mfifile, _logger& logger)
 	// 14:RngNDups:	0,
 	// 15:Usable:		TRUE,
 	// 16:ForTraining:	FALSE,
-	// 17:Notes:		
+	// 17:Notes:	
 
+	std::ofstream ofs("trades.csv");
+	TradePosition tp;
+	ofs << tp.print_header() << std::endl;
+		
 	double pnl = 0.0;
 	int fcnt = 1;
 	std::vector<std::string> mfis;
@@ -193,22 +198,19 @@ void execute_bulk_backtest(const std::string& mfifile, _logger& logger)
 		
 		std::vector<std::string> sv;
 		strtk::parse(f, ",", sv);
-		
-		std::cout << "sv[0]:" << sv[0] << "  sv size:" << sv.size() << std::endl;
-		
+				
 		if(sv.size() < 17)
 			continue;
 		
 		if(sv[16] != "TRUE")
 		{
 			logger.print(fmt::format("{:s}|is training:{:s}", sv[0], sv[16]));
-			run_backtest(sv[0], pnl, logger);
-			//if(fcnt++ >= 2)
-			//	break;
+			run_backtest(sv[0], pnl, logger, ofs);
+			fcnt++;
 		}
 	}
 	
-	logger.print(fmt::format("Total pnl:{:f}", pnl));
+	logger.print(fmt::format("Nfiles:{:d} Total pnl:{:f}", fcnt, pnl));
 }
 
 // ------------------------------------------------------------------------------------------------------

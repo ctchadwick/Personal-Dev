@@ -104,7 +104,7 @@ struct _logger
 };
 
 // --------------------------------------------------------------------------------------------------
-void transform_bars(const std::string& file, int thresh, _logger& logger)
+void fixed_volume_bars(const std::string& file, double thresh, _logger& logger)
 {
 	RTBarVec bars;
 	file_to_rtbars(file, bars);
@@ -113,30 +113,118 @@ void transform_bars(const std::string& file, int thresh, _logger& logger)
 	std::vector<std::string> fs;
 	strtk::parse(file, "-", fs);
 		
-	std::string fn = fmt::format("{:s}-{:d}volbar-{:s}", fs[0], thresh, fs[2]);
+	int threshold = thresh < 10.0 ? 1000 : static_cast<int>(thresh);
+	
+	std::string fn = fmt::format("{:s}-{:d}volbar-{:s}", fs[0], threshold, fs[2]);
 	std::ofstream ofs(fn.c_str());
-	ofs << "ibtimestamp,vwap,barvolume,remainder,n5secs" << std::endl;
+	ofs << "ibtimestamp,open,high,low,close,vwap,barvolume,remainder,n5secs" << std::endl;
 	
 	int index = 1;			
 	int ntix = 1;
 	int cumsum = 0;
 	int remainder = 0;
+	double vwap = 0.0;
+	double open = 0.0;
+	double high = 0.0;
+	double low = 10000.0;
+	double close = 0.0;
+	bool closeset = true;
 	for(auto&& b : bars)
 	{
-		cumsum += b.volume;
-		ntix++;
-		if(cumsum >= thresh)
+		ntix += closeset ? 0 : 1; 
+		if(closeset)
 		{
-			remainder = std::max(cumsum-thresh, 0);
-			ofs << fmt::format("{:d},{:f},{:d},{:d},{:d}", b.ibtimestamp, b.average, cumsum-remainder, remainder, ntix);
+			open = b.open;
+			closeset = false;
+		}
+		
+		cumsum += b.volume;
+		high = std::max(high, b.high);
+		low = std::min(low, b.low);
+		vwap += b.average;
+	 
+		if(cumsum >= threshold)
+		{
+			close = b.close;
+			closeset = true;
+			remainder = std::max(cumsum-threshold, 0);
+			ofs << fmt::format("{:d},{:f},{:f},{:f},{:f},{:f},{:d},{:d},{:d}", 
+				b.ibtimestamp, 
+				open,high,low,close,vwap/ntix,
+				cumsum-remainder, remainder, ntix);
 			ofs << std::endl;
 			index++;
 			cumsum = remainder;
+			vwap = 0.0;
+			open = 0.0;
+			close = 0.0;
+			ntix = 1;
+			high = 0.0;
+			low = 10000.0;
+		}
+	}
+	
+	logger.print(fmt::format("n fixed-volume bars created [{:d}]", index));
+}
+
+// --------------------------------------------------------------------------------------------------
+void fixed_price_bars(const std::string& file, double thresh, _logger& logger)
+{
+	RTBarVec bars;
+	file_to_rtbars(file, bars);
+	
+	// cleaned/CLM8-5sec-20180503.csv
+	std::vector<std::string> fs;
+	strtk::parse(file, "-", fs);
+	
+	double threshold = thresh < 0.01 ? 0.10 : thresh;
+		
+	std::string fn = fmt::format("{:s}-{:f}prcbar-{:s}", fs[0], threshold, fs[2]);
+	std::ofstream ofs(fn.c_str());
+	ofs << "ibtimestamp,open,close,barvolume,5secs" << std::endl;
+	
+	int index = 1;			
+	int ntix = 1;
+	int volume = 0;
+	double open = 0.0;
+	double close = 0.0;
+	double top = 0.0;
+	double bottom = 0.0;
+	bool closeset = true;
+	for(auto&& b : bars)
+	{
+		ntix += closeset ? 0 : 1; 
+		if(closeset)
+		{
+			open = b.average;
+			top = open + threshold;
+			bottom = open - threshold;
+			closeset = false;
+		}
+		
+		volume += b.volume;
+				
+		if((b.average < bottom) || (b.average > top))
+		{
+			close = b.average;
+			closeset = true;
+			
+			ofs << fmt::format("{:d},{:f},{:f},{:d},{:d}", 
+				b.ibtimestamp, 
+				open,close,
+				volume, ntix);
+			ofs << std::endl;
+			index++;
+			volume = 0;
+			top = 0.0;
+			bottom = 0.0;
+			open = 0.0;
+			close = 0.0;
 			ntix = 1;
 		}
 	}
 	
-	logger.print(fmt::format("n volume bars created [{:d}]", index));
+	logger.print(fmt::format("n fixed-price bars created [{:d}]", index));
 }
 
 // --------------------------------------------------------------------------------------------------
@@ -186,7 +274,18 @@ void execute_data_transform(const CommandArguments2& ARGS, _logger& logger)
 		if(sv[15] != "TRUE")
 			continue;
 			
-		transform_bars(sv[0], ARGS.thresh, logger);
+		switch(ARGS.txtype)
+		{
+		case 2:
+			fixed_price_bars(sv[0], ARGS.thresh, logger);
+			break;
+		case 1:
+			fixed_volume_bars(sv[0], ARGS.thresh, logger);
+			break;
+		default:
+			logger.print("no transform selected, ending...");
+			return;
+		}
 		
 		if(ARGS.testing)
 			if(fcnt++ >= 1)
@@ -203,7 +302,7 @@ int main(int argc, char *argv[])
 	CommandArguments2 ARGS;
 	if(handle_cmd_input2(argc, argv, ARGS) != 0)
 		return 1;
-	
+			
 	Credentials CREDS;
 	if(!CREDS.hasgroup("consolelog"))
 	{

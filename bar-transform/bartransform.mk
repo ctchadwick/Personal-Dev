@@ -3,7 +3,7 @@
 ## any manual changes will be erased      
 ##
 ## Debug
-ProjectName            :=bar-transform
+ProjectName            :=bartransform
 ConfigurationName      :=Debug
 WorkspacePath          :=C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/CodeLite-Workspace
 ProjectPath            :=C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/CodeLite-Workspace/bar-transform
@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Chadwick
-Date                   :=30/01/2020
+Date                   :=03/02/2020
 CodeLitePath           :="C:/Program Files (x86)/CodeLite"
 LinkerName             :=C:/mingw64-810/bin/g++.exe
 SharedObjectLinkerName :="C:/mingw64-810/bin/g++.exe" -shared -fPIC
@@ -32,7 +32,7 @@ Preprocessors          :=$(PreprocessorSwitch)_WIN32_WINNT_WIN7 $(PreprocessorSw
 ObjectSwitch           :=-o 
 ArchiveOutputSwitch    := 
 PreprocessOnlySwitch   :=-E
-ObjectsFileList        :="bar-transform.txt"
+ObjectsFileList        :="bartransform.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=makedir
 RcCmpOptions           := 
@@ -41,8 +41,8 @@ LinkOptions            :=
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). $(IncludeSwitch)$(BoostIncludes) $(IncludeSwitch)$(WorkspaceCodeLib) $(IncludeSwitch)$(WorkspaceCodeLib)/strtk $(IncludeSwitch)$(WorkspaceCodeLib)/rapidjson $(IncludeSwitch)$(WorkspaceCodeLib)/spdlog $(IncludeSwitch)$(WorkspaceCodeLib)/date/include $(IncludeSwitch)$(WorkspaceCodeLib)/IB-Codes 
 IncludePCH             := 
 RcIncludePath          := 
-Libs                   := $(LibrarySwitch)mswsock $(LibrarySwitch)ws2_32 $(LibrarySwitch)boost_filesystem-${blibsuffix} $(LibrarySwitch)boost_date_time-${blibsuffix} $(LibrarySwitch)boost_thread-${blibsuffix} $(LibrarySwitch)boost_coroutine-${blibsuffix} $(LibrarySwitch)boost_context-${blibsuffix} $(LibrarySwitch)boost_chrono-${blibsuffix} $(LibrarySwitch)boost_random-${blibsuffix} $(LibrarySwitch)boost_program_options-${blibsuffixl} $(LibrarySwitch)boost_system-${blibsuffix} 
-ArLibs                 :=  "mswsock" "ws2_32" "boost_filesystem-${blibsuffix}" "boost_date_time-${blibsuffix}" "boost_thread-${blibsuffix}" "boost_coroutine-${blibsuffix}" "boost_context-${blibsuffix}" "boost_chrono-${blibsuffix}" "boost_random-${blibsuffix}" "boost_program_options-${blibsuffixl}" "boost_system-${blibsuffix}" 
+Libs                   := $(LibrarySwitch)mswsock $(LibrarySwitch)ws2_32 $(LibrarySwitch)boost_filesystem-${blibsuffix} $(LibrarySwitch)boost_date_time-${blibsuffix} $(LibrarySwitch)boost_thread-${blibsuffix} $(LibrarySwitch)boost_coroutine-${blibsuffix} $(LibrarySwitch)boost_context-${blibsuffix} $(LibrarySwitch)boost_chrono-${blibsuffix} $(LibrarySwitch)boost_random-${blibsuffix} $(LibrarySwitch)boost_program_options-${blibsuffix} $(LibrarySwitch)boost_system-${blibsuffix} 
+ArLibs                 :=  "mswsock" "ws2_32" "boost_filesystem-${blibsuffix}" "boost_date_time-${blibsuffix}" "boost_thread-${blibsuffix}" "boost_coroutine-${blibsuffix}" "boost_context-${blibsuffix}" "boost_chrono-${blibsuffix}" "boost_random-${blibsuffix}" "boost_program_options-${blibsuffix}" "boost_system-${blibsuffix}" 
 LibPath                := $(LibraryPathSwitch). $(LibraryPathSwitch)$(BoostLibraries) 
 
 ##
@@ -52,7 +52,7 @@ LibPath                := $(LibraryPathSwitch). $(LibraryPathSwitch)$(BoostLibra
 AR       := "C:/mingw64-810/bin/ar.exe" rcu
 CXX      := C:/mingw64-810/bin/g++.exe
 CC       := C:/mingw64-810/bin/gcc.exe
-CXXFLAGS :=  -g -O0 -std=c++17 -std=c++11 -Wall -Wa,-mbig-obj $(Preprocessors)
+CXXFLAGS :=  -g -O0 -std=c++17 -Wall $(Preprocessors)
 CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
 ASFLAGS  := 
 AS       := C:/mingw64-810/bin/as.exe
@@ -75,7 +75,7 @@ OpenSSLIncludes:=C:/Program Files/OpenSSL-Win64/include
 OpenSSLLibraries:=C:/Program Files/OpenSSL-Win64/lib
 npcap-includes:=C:/npcap-sdk/Include
 npcap-libraries:=C:/npcap-sdk/Lib/x64
-Objects0=$(IntermediateDirectory)/fast-log2.cpp$(ObjectSuffix) $(IntermediateDirectory)/amain.cpp$(ObjectSuffix) $(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) $(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) $(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) $(IntermediateDirectory)/amain.cpp$(ObjectSuffix) 
 
 
 
@@ -106,21 +106,13 @@ PreBuild:
 ##
 ## Objects
 ##
-$(IntermediateDirectory)/fast-log2.cpp$(ObjectSuffix): ../../Code-Library/fast-log2.cpp $(IntermediateDirectory)/fast-log2.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/fast-log2.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/fast-log2.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/fast-log2.cpp$(DependSuffix): ../../Code-Library/fast-log2.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/fast-log2.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/fast-log2.cpp$(DependSuffix) -MM ../../Code-Library/fast-log2.cpp
+$(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix): ../../Code-Library/hi-res-time2.cpp $(IntermediateDirectory)/hi-res-time2.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/hi-res-time2.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/hi-res-time2.cpp$(DependSuffix): ../../Code-Library/hi-res-time2.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/hi-res-time2.cpp$(DependSuffix) -MM ../../Code-Library/hi-res-time2.cpp
 
-$(IntermediateDirectory)/fast-log2.cpp$(PreprocessSuffix): ../../Code-Library/fast-log2.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/fast-log2.cpp$(PreprocessSuffix) ../../Code-Library/fast-log2.cpp
-
-$(IntermediateDirectory)/amain.cpp$(ObjectSuffix): amain.cpp $(IntermediateDirectory)/amain.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/CodeLite-Workspace/bar-transform/amain.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/amain.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/amain.cpp$(DependSuffix): amain.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/amain.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/amain.cpp$(DependSuffix) -MM amain.cpp
-
-$(IntermediateDirectory)/amain.cpp$(PreprocessSuffix): amain.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/amain.cpp$(PreprocessSuffix) amain.cpp
+$(IntermediateDirectory)/hi-res-time2.cpp$(PreprocessSuffix): ../../Code-Library/hi-res-time2.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/hi-res-time2.cpp$(PreprocessSuffix) ../../Code-Library/hi-res-time2.cpp
 
 $(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp $(IntermediateDirectory)/orderflow-utils.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/orderflow-utils.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) $(IncludePath)
@@ -130,13 +122,13 @@ $(IntermediateDirectory)/orderflow-utils.cpp$(DependSuffix): ../../Code-Library/
 $(IntermediateDirectory)/orderflow-utils.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/orderflow-utils.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/orderflow-utils.cpp
 
-$(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix): ../../Code-Library/hi-res-time2.cpp $(IntermediateDirectory)/hi-res-time2.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/hi-res-time2.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/hi-res-time2.cpp$(DependSuffix): ../../Code-Library/hi-res-time2.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/hi-res-time2.cpp$(DependSuffix) -MM ../../Code-Library/hi-res-time2.cpp
+$(IntermediateDirectory)/amain.cpp$(ObjectSuffix): amain.cpp $(IntermediateDirectory)/amain.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/CodeLite-Workspace/bar-transform/amain.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/amain.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/amain.cpp$(DependSuffix): amain.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/amain.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/amain.cpp$(DependSuffix) -MM amain.cpp
 
-$(IntermediateDirectory)/hi-res-time2.cpp$(PreprocessSuffix): ../../Code-Library/hi-res-time2.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/hi-res-time2.cpp$(PreprocessSuffix) ../../Code-Library/hi-res-time2.cpp
+$(IntermediateDirectory)/amain.cpp$(PreprocessSuffix): amain.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/amain.cpp$(PreprocessSuffix) amain.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

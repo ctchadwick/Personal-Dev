@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Chadwick
-Date                   :=28/08/2019
+Date                   :=14/02/2020
 CodeLitePath           :="C:/Program Files (x86)/CodeLite"
 LinkerName             :=C:/mingw64-810/bin/g++.exe
 SharedObjectLinkerName :="C:/mingw64-810/bin/g++.exe" -shared -fPIC
@@ -52,7 +52,7 @@ LibPath                := $(LibraryPathSwitch). $(LibraryPathSwitch)$(BoostLibra
 AR       := "C:/mingw64-810/bin/ar.exe" rcu
 CXX      := C:/mingw64-810/bin/g++.exe
 CC       := C:/mingw64-810/bin/gcc.exe
-CXXFLAGS :=  -g -O0 -std=c++14 -Wall $(Preprocessors)
+CXXFLAGS :=  -g -O0 -std=c++17 -Wall $(Preprocessors)
 CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
 ASFLAGS  := 
 AS       := C:/mingw64-810/bin/as.exe
@@ -61,17 +61,21 @@ AS       := C:/mingw64-810/bin/as.exe
 ##
 ## User defined environment variables
 ##
-CodeLiteDir:=C:\Program Files\CodeLite
-WorkspaceCodeLib:="C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library"
-BinRepo:=C:\Users\Chadwick\Desktop\MCM-Options-CTC\Codes-Etc\CodeLite-Workspace\bin
-WorkBinRepo:=C:\Users\Chadwick\Desktop\MCM-Options-CTC\Codes-Etc\Work-Codelite-Workspace\bin
-BoostIncludes:=C:\Boost\include\boost-1_69
-BoostLibraries:=C:\Boost\lib
-blibsuffix:=mgw81-mt-x64-1_69
-blibsuffix-dll:=mgw81-mt-x64-1_69.dll
-blibsuffix32:=mgw81-mt-x32-1_69
-blibsuffix32-dll:=mgw81-mt-x32-1_69.dll
-Objects0=$(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) $(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix) $(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) 
+CodeLiteDir:=C:/Program Files/CodeLite
+WorkspaceCodeLib:=C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library
+BinRepo:=C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/CodeLite-Workspace/bin
+WorkBinRepo:=C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Work-Codelite-Workspace/bin
+BoostIncludes:=C:/Boost/include/boost-1_71
+BoostLibraries:=C:/Boost/lib
+blibsuffix:=mgw81-mt-x64-1_71
+blibsuffix-dll:=mgw81-mt-x64-1_71.dll
+blibsuffix32:=mgw81-mt-x32-1_71
+blibsuffix32-dll:=mgw81-mt-x32-1_71.dll
+OpenSSLIncludes:=C:/Program Files/OpenSSL-Win64/include
+OpenSSLLibraries:=C:/Program Files/OpenSSL-Win64/lib
+npcap-includes:=C:/npcap-sdk/Include
+npcap-libraries:=C:/npcap-sdk/Lib/x64
+Objects0=$(IntermediateDirectory)/indicator-utils.cpp$(ObjectSuffix) $(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/hi-res-time2.cpp$(ObjectSuffix) $(IntermediateDirectory)/idobos-trigger-agent.cpp$(ObjectSuffix) 
 
 
 
@@ -102,21 +106,13 @@ PreBuild:
 ##
 ## Objects
 ##
-$(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp $(IntermediateDirectory)/orderflow-utils.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/orderflow-utils.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/orderflow-utils.cpp$(DependSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/orderflow-utils.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/orderflow-utils.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/orderflow-utils.cpp
+$(IntermediateDirectory)/indicator-utils.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/indicator-utils.cpp $(IntermediateDirectory)/indicator-utils.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/indicator-utils.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/indicator-utils.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/indicator-utils.cpp$(DependSuffix): ../../Code-Library/IB-codes/indicator-utils.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/indicator-utils.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/indicator-utils.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/indicator-utils.cpp
 
-$(IntermediateDirectory)/orderflow-utils.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/orderflow-utils.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/orderflow-utils.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/orderflow-utils.cpp
-
-$(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/volume-trigger-agent.cpp $(IntermediateDirectory)/volume-trigger-agent.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/volume-trigger-agent.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/volume-trigger-agent.cpp$(DependSuffix): ../../Code-Library/IB-codes/volume-trigger-agent.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/volume-trigger-agent.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/volume-trigger-agent.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/volume-trigger-agent.cpp
-
-$(IntermediateDirectory)/volume-trigger-agent.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/volume-trigger-agent.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/volume-trigger-agent.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/volume-trigger-agent.cpp
+$(IntermediateDirectory)/indicator-utils.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/indicator-utils.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/indicator-utils.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/indicator-utils.cpp
 
 $(IntermediateDirectory)/main.cpp$(ObjectSuffix): main.cpp $(IntermediateDirectory)/main.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/CodeLite-Workspace/twsoil-bt/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
@@ -133,6 +129,14 @@ $(IntermediateDirectory)/hi-res-time2.cpp$(DependSuffix): ../../Code-Library/hi-
 
 $(IntermediateDirectory)/hi-res-time2.cpp$(PreprocessSuffix): ../../Code-Library/hi-res-time2.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/hi-res-time2.cpp$(PreprocessSuffix) ../../Code-Library/hi-res-time2.cpp
+
+$(IntermediateDirectory)/idobos-trigger-agent.cpp$(ObjectSuffix): ../../Code-Library/IB-codes/idobos-trigger-agent.cpp $(IntermediateDirectory)/idobos-trigger-agent.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Chadwick/Desktop/MCM-Options-CTC/Codes-Etc/Code-Library/IB-codes/idobos-trigger-agent.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/idobos-trigger-agent.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/idobos-trigger-agent.cpp$(DependSuffix): ../../Code-Library/IB-codes/idobos-trigger-agent.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/idobos-trigger-agent.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/idobos-trigger-agent.cpp$(DependSuffix) -MM ../../Code-Library/IB-codes/idobos-trigger-agent.cpp
+
+$(IntermediateDirectory)/idobos-trigger-agent.cpp$(PreprocessSuffix): ../../Code-Library/IB-codes/idobos-trigger-agent.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/idobos-trigger-agent.cpp$(PreprocessSuffix) ../../Code-Library/IB-codes/idobos-trigger-agent.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
