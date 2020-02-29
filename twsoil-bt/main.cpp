@@ -29,7 +29,7 @@ typedef std::vector<BAR> BarVec;
 // --------------------------------------------------------------------------------------------------
 void file_to_rtbars(const std::string& file, RTBarVec& bars)
 {
-	std::cout << file << std::endl;
+	//std::cout << file << std::endl;
 	
 	const boost::posix_time::ptime time_epoch{boost::gregorian::date{1970,1,1}, boost::posix_time::time_duration{0,0,0}};
 	const boost::posix_time::time_duration st{7,25,0};	
@@ -76,16 +76,11 @@ struct _logger
 {
 	_logger()
 	{
-		std::string hdr = "file,conid,loc_ordid,ib_ordid,type,status,opentime,closetime,lowtime,hightime,open,close,low,high,side,qty,ordqty,remaining_qty,commission,multiplier,neg_nbars,nbars,pnl,unit_pnl,tgtloss,clsreason,srcstr,m_rvar,m_rmean,m_rzs,m_cur_bid,m_cur_ask,m_bid_balance,m_ask_balance,m60,m120,m240,m480,smoms,para3,t3,month,running_pnl";
 		CLOG = spdlog::get("console");
-		ofs.open("backtest.txt");
-		ofs << hdr << std::endl;
-		//ofs << std::endl;
 	}
 	
 	~_logger() 
 	{
-		ofs.close();
 	}
 	
 	void print(const std::string& msg)
@@ -93,20 +88,12 @@ struct _logger
 		CLOG->info(msg);
 	}
 	
-	void save(const std::string& msg)
-	{
-		ofs << msg << std::endl;
-	}
-	
-	std::ofstream ofs;
 	std::shared_ptr<spdlog::logger> CLOG;
 };
 
 // --------------------------------------------------------------------------------------------------
-void run_backtest(const std::string& file, double& tpnl, _logger& logger, std::ofstream& ofs)
+void run_backtest(const std::string& file, int& ordseed, double& equity, bool track_trades_hdr, _logger& logger, std::ofstream& ofs)
 {
-	//logger.print("in run_backtest");
-	
 	AlgoParameters AP;
 	AP.cid = 1;
 	AP.stralgo = "idobos";
@@ -117,12 +104,13 @@ void run_backtest(const std::string& file, double& tpnl, _logger& logger, std::o
 	IntradayOBOSTriggerAgent agent(AP);
 	agent.sig_notify_msg.Connect(&logger, &_logger::print);
 	agent.setup();
+	agent.initialize_trade_tracking(track_trades_hdr);
 			
 	RTBarVec bars;
 	file_to_rtbars(file, bars);
 			
-//	boost::random::mt19937 RNG;
-//	boost::random::uniform_int_distribution<> off(0,2);
+	//boost::random::mt19937 RNG;
+	//boost::random::uniform_int_distribution<> off(0,2);
 	// take first 480 bars and initialize agent
 	BarVec regbars;
 	size_t index = 0;
@@ -135,24 +123,22 @@ void run_backtest(const std::string& file, double& tpnl, _logger& logger, std::o
 		index++;
 	}
 	
-	//logger.print(fmt::format("processed [{:d}] rtbars into bars for initialization", index));
-	if(!agent.initialize(regbars, 1234))
+	if(!agent.initialize(regbars, ordseed, equity))
 	{
 		logger.print(fmt::format("SKIPPING FILE [{:s}], size issue", file));
 		return;
 	}
 	
-	//logger.print(fmt::format("staring data with: [{:s}]", bars[index].print()));
-	
 	for(size_t i = index; i < bars.size(); i++)
 		agent.update_from_5sec_bar(bars[i]);
 		
-	std::for_each(agent.m_trades.begin(), agent.m_trades.end(), [&file, &tpnl, &logger, &ofs](auto&& p)
+	agent.close_position("eod+");	
+	std::for_each(agent.m_trades.begin(), agent.m_trades.end(), [&ofs](auto&& p)
 	{ 
-		tpnl += p.second.first.pnl;
-		//logger.save(fmt::format("{:s},{:s},{:s},{:f}", file, p.second.first.print_csv(), p.second.second, tpnl));
 		ofs << p.second.first.print_csv() << std::endl;
 	});
+	//logger.print(fmt::format(" eq:{:f}", agent.m_equity));
+	equity = agent.m_equity;
 }
 
 // --------------------------------------------------------------------------------------------------
@@ -183,11 +169,15 @@ void execute_bulk_backtest(const std::string& mfifile, _logger& logger)
 	TradePosition tp;
 	ofs << tp.print_header() << std::endl;
 		
-	double pnl = 0.0;
 	int fcnt = 1;
 	std::vector<std::string> mfis;
 	mcm_assorted::for_each_line(mfifile, mfis);
 	bool skip_header = true;
+	int ordseed = 1;
+	double equity = 3000.00;
+	double extract = 0;
+	bool track_trades_hdr = true;
+	
 	for(auto&& f : mfis)
 	{
 		if(skip_header)
@@ -204,13 +194,22 @@ void execute_bulk_backtest(const std::string& mfifile, _logger& logger)
 		
 		if(sv[16] != "TRUE")
 		{
-			logger.print(fmt::format("{:s}|is training:{:s}", sv[0], sv[16]));
-			run_backtest(sv[0], pnl, logger, ofs);
+			//logger.print(fmt::format("{:s}|is training:{:s}", sv[0], sv[16]));
+			run_backtest(sv[0], ordseed, equity, track_trades_hdr, logger, ofs);
+			track_trades_hdr = false;
 			fcnt++;
+			ordseed += 20;
+		}
+		
+		if(equity > 10000.00)
+		{	
+			extract += 7000.0;
+			equity -= 7000.00;
+			logger.print(fmt::format("Extracted 7000.0, cnt:{:d}", fcnt));
 		}
 	}
 	
-	logger.print(fmt::format("Nfiles:{:d} Total pnl:{:f}", fcnt, pnl));
+	logger.print(fmt::format("Nfiles:{:d} Total pnl:{:f} extr:{:f}", fcnt, equity, extract));
 }
 
 // ------------------------------------------------------------------------------------------------------
