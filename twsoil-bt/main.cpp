@@ -92,17 +92,14 @@ struct _logger
 };
 
 // --------------------------------------------------------------------------------------------------
-void run_backtest(const std::string& file, int& ordseed, double& equity, bool track_trades_hdr, _logger& logger, std::ofstream& ofs)
+void run_backtest(const std::string& file, int& ordseed, double& equity, bool track_trades_hdr, std::ofstream& ofs, std::ofstream& tlofs)
 {
 	AlgoParameters AP;
 	AP.cid = 1;
 	AP.stralgo = "idobos";
 	AP.is_testing = true;
-	
-	//logger.print(AP.print());
-	
-	IntradayOBOSTriggerAgent agent(AP);
-	agent.sig_notify_msg.Connect(&logger, &_logger::print);
+		
+	IntradayOBOSTriggerAgent agent(AP, tlofs);
 	agent.setup();
 	agent.initialize_trade_tracking(track_trades_hdr);
 			
@@ -124,10 +121,7 @@ void run_backtest(const std::string& file, int& ordseed, double& equity, bool tr
 	}
 	
 	if(!agent.initialize(regbars, ordseed, equity))
-	{
-		logger.print(fmt::format("SKIPPING FILE [{:s}], size issue", file));
 		return;
-	}
 	
 	for(size_t i = index; i < bars.size(); i++)
 		agent.update_from_5sec_bar(bars[i]);
@@ -137,7 +131,7 @@ void run_backtest(const std::string& file, int& ordseed, double& equity, bool tr
 	{ 
 		ofs << p.second.first.print_csv() << std::endl;
 	});
-	//logger.print(fmt::format(" eq:{:f}", agent.m_equity));
+
 	equity = agent.m_equity;
 }
 
@@ -166,6 +160,7 @@ void execute_bulk_backtest(const std::string& mfifile, _logger& logger)
 	// 17:Notes:	
 
 	std::ofstream ofs("trades.csv");
+	std::ofstream tlofs("tradelifetimes.csv");
 	TradePosition tp;
 	ofs << tp.print_header() << std::endl;
 		
@@ -195,7 +190,7 @@ void execute_bulk_backtest(const std::string& mfifile, _logger& logger)
 		if(sv[16] != "TRUE")
 		{
 			//logger.print(fmt::format("{:s}|is training:{:s}", sv[0], sv[16]));
-			run_backtest(sv[0], ordseed, equity, track_trades_hdr, logger, ofs);
+			run_backtest(sv[0], ordseed, equity, track_trades_hdr, ofs, tlofs);
 			track_trades_hdr = false;
 			fcnt++;
 			ordseed += 20;
